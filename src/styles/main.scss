@@ -1,0 +1,21 @@
+$main-menu-background-color: black;
+$main-menu-font-color: white;
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+.wrap {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+}
+
+.main-menu-block {
+  background-color: $main-menu-background-color;
+  color: $main-menu-font-color;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 270px;
+}
