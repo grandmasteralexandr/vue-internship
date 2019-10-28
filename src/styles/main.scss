@@ -1,21 +1,350 @@
-$main-menu-background-color: black;
-$main-menu-font-color: white;
+$sidebar-background-color: black;
+$sidebar-main-font-color: white;
+$sidebar-second-font-color: #878787;
+$content-font-color: #131313;
+$content-background: #eeebe5;
+$user-block-color: #202020;
+$gold-highlight: #FFC200;
+$gray-highlight: #EAEAEA;
+$green-highlight: #CEF9C6;
+$chat-button-background: #FFF8DD;
+$comment-background:#F7F6F3;
+$comment-icon-background: #FFF8DD;
+$download-background:#E3EFFF;
 
-html, body {
+
+@mixin square-block($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin circle($size, $color) {
+  @include square-block($size);
+  border-radius: 50%;
+  background-color: $color;
+}
+
+@mixin icon($size, $url) {
+  content: "";
+  position: absolute;
+  background: url($url) center center;
+  background-size: cover;
+  @include square-block($size);
+}
+
+@mixin button($color) {
+  @extend %cursor;
+  background-color: $color;
+  border-radius: 15px;
+  margin: 0 8px;
+  padding: 10px 15px 8px 15px;
+  font-size: 14px;
+}
+
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%cursor {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+%dots-button {
+  @extend %flex-center;
+  @extend %cursor;
+  @include square-block(30px);
+}
+
+@font-face {
+  font-family: Helvetica;
+  src: url("../fonts/HelveticaRegular.ttf");
+}
+
+html {
+  //maybe only height
+  @include square-block(100%);
+}
+
+body {
   margin: 0;
-  height: 100%;
+  @include square-block(100%);
+  font-family: Helvetica, Verdana, serif;
+  font-size: 16px;
+  color: $content-font-color;
+}
+
+button {
+  outline: none;
+  border: none;
+  background: transparent;
+  font-family: Helvetica, Verdana, serif;
 }
 
 .wrap {
   display: flex;
-  overflow: hidden;
   height: 100%;
 }
 
-.main-menu-block {
-  background-color: $main-menu-background-color;
-  color: $main-menu-font-color;
+// Sidebar
+
+.sidebar {
+  background-color: $sidebar-background-color;
+  color: $sidebar-main-font-color;
   display: flex;
   flex-direction: column;
-  flex-basis: 270px;
+  min-width: 270px;
+}
+
+.logo__name {
+  font-weight: bold;
+  padding: 30px;
+
+  &:before {
+    content: url("../img/logo@3x.svg");
+    float: left;
+    position: relative;
+    left: -13px;
+    padding-left: 13px;
+  }
+
+  &:after {
+    content: url("../img/search@3x.svg");
+    position: relative;
+    left: 72px;
+    top: 2px;
+    cursor: pointer;
+  }
+}
+
+.main-menu-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.user {
+  background-color: $user-block-color;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+
+  &:before {
+    content: "";
+    background: url("../img/user-avatar.jpeg") center center;
+    background-size: cover;
+    @include square-block(48px);
+    border-radius: 50%;
+    margin-left: 30px;
+    margin-right: 13px;
+  }
+}
+
+.user__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user__name {
+  font-size: 14px;
+}
+
+.user__role, .task__status, .main-menu__name {
+  font-size: 12px;
+  color: $sidebar-second-font-color;
+}
+
+.user__setting-button {
+  @extend %dots-button;
+  margin-left: auto;
+  margin-right: 15px;
+}
+
+.dots {
+  position: relative;
+  @include square-block(4px);
+  border-radius: 50%;
+  background-color: $sidebar-second-font-color;
+
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    @include square-block(inherit);
+    background-color: inherit;
+    border-radius: inherit;
+  }
+
+  &:before {
+    left: -6px;
+  }
+
+  &:after {
+    left: 6px;
+  }
+}
+
+.tasks {
+  display: flex;
+  margin-top: 20px;
+}
+
+.completed-tasks {
+  margin-left: 30px;
+}
+
+.open-tasks {
+  margin-left: 20px;
+}
+
+.task__count {
+  font-size: 20px;
+  padding: 2px 0;
+}
+
+.main-menu {
+  margin-top: 30px;
+  padding-left: 30px;
+
+  ul {
+    padding: 0;
+    margin: 20px 0;
+    font-size: 14px;
+
+    li {
+      padding: 10px 0;
+      list-style-type: none;
+
+      a {
+        text-decoration: none;
+        color: $sidebar-main-font-color;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.count-highlight {
+  background-color: $gold-highlight;
+  color: $content-font-color;
+  font-size: 13px;
+  @include square-block(20px);
+  border-radius: 50%;
+  margin-left: 10px;
+  @extend %flex-center;
+}
+
+// Main content
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.content__header {
+  display: flex;
+  flex-direction: column;
+}
+
+.content__header-top-line {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  justify-content: space-between;
+}
+
+.content__title {
+  font-size: 32px;
+  margin-left: 83px;
+  margin-top: 20px;
+  position: relative;
+  display: flex;
+
+  &:before {
+    @include icon(40px, "../img/shapes@2x.png");
+    background: $gold-highlight url("../img/shapes@2x.png") center center;
+    background-size: cover;
+    border-radius: 5px;
+    left: -53px;
+    top: -8px;
+  }
+}
+
+.content__settings-button {
+  @extend %dots-button;
+  background-color: $gray-highlight;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.content__header-buttons-block {
+  margin: 20px 22px 0 25px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.share {
+  display: flex;
+  align-items: center;
+}
+
+.share__avatar {
+  @include square-block(30px);
+  padding: 0 5px;
+
+  img {
+    @include square-block(30px);
+    border-radius: 50%;
+  }
+}
+
+.share__button {
+  @include button($gray-highlight);
+}
+
+.chat__button {
+  @include button($chat-button-background);
+  color: $gold-highlight;
+  position: relative;
+  padding-left: 45px;
+
+  &:before {
+    @include icon(18px, "../img/combined-shape@1x.svg");
+    left: 18px;
+    top: 6px;
+  }
+}
+
+.content-menu {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 24px 10px 16px 14px;
+
+    li {
+      list-style-type: none;
+      padding: 0 16px;
+
+      a {
+        text-decoration: none;
+        color: $content-font-color;
+      }
+    }
+  }
+}
+
+.content-wrap {
+  @extend %flex-center;
+  background-color: $content-background;
+  height: 100%;
+}
+
+.activity {
+  background-color: white;
+  padding: 35px 30px;
 }

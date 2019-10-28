@@ -8,27 +8,26 @@
   </head>
   <body>
     <div class="wrap">
-      <div class="main-menu-block">
-        <div class="project-header">
-          <div class="project-name">PROJECTUS</div>
-          <div class="search"></div>
+      <section class="sidebar">
+        <div class="logo">
+          <div class="logo__name">PROJECTUS</div>
         </div>
         <div class="main-menu-wrap">
-          <div class="user-block">
-            <div class="user-header">
-              <div class="user-name">Jean Gonzales</div>
-              <div class="user-role">Product Owner</div>
+          <div class="user">
+            <div class="user__info">
+              <div class="user__name">Jean Gonzales</div>
+              <div class="user__role">Product Owner</div>
             </div>
-            <div class="user-setting-button"></div>
+            <div class="user__setting-button"><div class="dots"></div></div>
           </div>
-          <div class="user-tasks-info">
-            <div class="completed-tasks-block">
-              <div class="task-count">372</div>
-              <div class="task-status">Completed Tasks</div>
+          <div class="tasks">
+            <div class="completed-tasks">
+              <div class="task__count">372</div>
+              <div class="task__status">Completed Tasks</div>
             </div>
-            <div class="open-tasks-block">
-              <div class="task-count">11</div>
-              <div class="task-status">Open Tasks</div>
+            <div class="open-tasks">
+              <div class="task__count">11</div>
+              <div class="task__status">Open Tasks</div>
             </div>
           </div>
           <nav class="main-menu">
@@ -36,21 +35,40 @@
             <ul class="main-menu__container">
               <li class="main-menu__item"><a href="" class="main-menu__link">Home</a></li>
               <li class="main-menu__item"><a href="" class="main-menu__link">My Tasks</a></li>
-              <li class="main-menu__item"><a href="" class="main-menu__link">Notifications</a></li>
+              <li class="main-menu__item"><a href="" class="main-menu__link">Notifications
+                <div class="count-highlight">3</div></a>
+              </li>
             </ul>
           </nav>
         </div>
-      </div>
-      <div class="main-content">
-        <div class="content-header">
-          <div class="content-header__title">
-            <h1>Website Redesign</h1>
-            <div class="content-settings-button"></div>
+      </section>
+      <section class="content">
+        <div class="content__header">
+          <div class="content__header-top-line">
+            <div class="content__title">
+              <div>Website Redesign</div>
+              <div class="content__settings-button">
+                <div class="dots"></div>
+              </div>
+            </div>
+            <div class="content__header-buttons-block">
+              <div class="share">
+                <div class="share__avatar">
+                  <img src="src/img/shared-avatar.jpeg" alt="Avatar">
+                </div>
+                <div class="share__avatar">
+                  <img src="src/img/shared-avatar2.jpeg" alt="Avatar">
+                </div>
+                <div class="share__avatar">
+                  <img src="src/img/shared-avatar3.jpeg" alt="Avatar">
+                </div>
+                <button class="share__button">Share</button>
+              </div>
+              <div class="chat">
+                <button class="chat__button">Chat</button>
+              </div>
+            </div>
           </div>
-          <div class="share-block">
-            <button>Share</button>
-          </div>
-          <button>Chat</button>
           <nav class="content-menu">
             <ul class="content-menu__container">
               <li class="content-menu__item"><a href="" class="content-menu__link">Tasks</a></li>
@@ -62,34 +80,34 @@
           </nav>
         </div>
         <div class="content-wrap">
-          <div class="container">
-            <div class="date">Today</div>
-            <div class="activity">
-              <p class="activity-description">
+          <div class="activity">
+            <div class="content__date">Today</div>
+            <div class="activity__item">
+              <p class="activity__description">
                 Darika Samak mark as done Listing on Product Hunt so that we can reach as many potential users
               </p>
-              <div class="activity-time">8:40 PM</div>
+              <div class="activity__time">8:40 PM</div>
             </div>
-            <div class="activity">
-              <p class="activity-description">
+            <div class="activity__item">
+              <p class="activity__description">
                 Emilee Simchenko commented on Account for teams and personal in bottom style
               </p>
-              <div class="activity-comment">
+              <div class="activity__comment">
                 During a project build, it is necessary to evaluate the product design and development against project
                 requirements and outcomes
               </div>
-              <div class="activity-time">7:32 PM</div>
+              <div class="activity__time">7:32 PM</div>
             </div>
-            <div class="activity">
-              <p class="activity-description">
+            <div class="activity__item">
+              <p class="activity__description">
                 Darika Samak uploaded 4 files on An option to search in current projects or in all projects
               </p>
-              <div class="activity-time">6:02 PM</div>
-              <div class="activity-img-block"></div>
+              <div class="activity__time">6:02 PM</div>
+              <div class="activity-img"></div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   </body>
 </html>
