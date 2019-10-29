@@ -18,7 +18,9 @@
               <div class="user__name">Jean Gonzales</div>
               <div class="user__role">Product Owner</div>
             </div>
-            <div class="user__setting-button"><div class="dots"></div></div>
+            <div class="user__setting-button">
+              <div class="dots"></div>
+            </div>
           </div>
           <div class="tasks">
             <div class="completed-tasks">
@@ -36,7 +38,8 @@
               <li class="main-menu__item"><a href="" class="main-menu__link">Home</a></li>
               <li class="main-menu__item"><a href="" class="main-menu__link">My Tasks</a></li>
               <li class="main-menu__item"><a href="" class="main-menu__link">Notifications
-                <div class="count-highlight">3</div></a>
+                <div class="count-highlight">3</div>
+              </a>
               </li>
             </ul>
           </nav>
@@ -73,7 +76,7 @@
             <ul class="content-menu__container">
               <li class="content-menu__item"><a href="" class="content-menu__link">Tasks</a></li>
               <li class="content-menu__item"><a href="" class="content-menu__link">Kanban</a></li>
-              <li class="content-menu__item"><a href="" class="content-menu__link">Activity</a></li>
+              <li class="content-menu__item"><a href="" class="content-menu__link active">Activity</a></li>
               <li class="content-menu__item"><a href="" class="content-menu__link">Calendar</a></li>
               <li class="content-menu__item"><a href="" class="content-menu__link">Files</a></li>
             </ul>
@@ -81,29 +84,45 @@
         </div>
         <div class="content-wrap">
           <div class="activity">
-            <div class="content__date">Today</div>
+            <div class="content__date">TODAY</div>
             <div class="activity__item">
-              <p class="activity__description">
-                Darika Samak mark as done Listing on Product Hunt so that we can reach as many potential users
-              </p>
-              <div class="activity__time">8:40 PM</div>
-            </div>
-            <div class="activity__item">
-              <p class="activity__description">
-                Emilee Simchenko commented on Account for teams and personal in bottom style
-              </p>
-              <div class="activity__comment">
-                During a project build, it is necessary to evaluate the product design and development against project
-                requirements and outcomes
+              <div class="done-icon"></div>
+              <div class="activity__item-wrap">
+                <p class="activity__description">
+                  Darika Samak mark as done Listing on Product Hunt so that we can reach as many potential users
+                </p>
               </div>
-              <div class="activity__time">7:32 PM</div>
+              <time class="activity__time">8:40 PM</time>
             </div>
             <div class="activity__item">
-              <p class="activity__description">
-                Darika Samak uploaded 4 files on An option to search in current projects or in all projects
-              </p>
-              <div class="activity__time">6:02 PM</div>
-              <div class="activity-img"></div>
+              <div class="comment-icon"></div>
+              <div class="activity__item-wrap">
+                <p class="activity__description">
+                  Emilee Simchenko commented on Account for teams and personal in bottom style
+                </p>
+                <p class="activity__comment">
+                  During a project build, it is necessary to evaluate the product design and development against project
+                  requirements and outcomes
+                </p>
+              </div>
+              <time class="activity__time">7:32 PM</time>
+            </div>
+            <div class="activity__item">
+              <div class="download-icon"></div>
+              <div class="activity__item-wrap">
+                <p class="activity__description">
+                  Darika Samak uploaded 4 files on An option to search in current projects or in all projects
+                </p>
+                <div class="activity__img">
+                  <ul class="activity__img-box">
+                    <li class="activity__img-item"><img src="src/img/cat.jpeg" alt="Cat"></li>
+                    <li class="activity__img-item"><img src="src/img/cat2.jpeg" alt="Cat"></li>
+                    <li class="activity__img-item"><img src="src/img/cat3.jpeg" alt="Cat"></li>
+                    <li class="activity__img-item"><img src="src/img/cat4.jpeg" alt="Cat"></li>
+                  </ul>
+                </div>
+              </div>
+              <time class="activity__time">6:02 PM</time>
             </div>
           </div>
         </div>

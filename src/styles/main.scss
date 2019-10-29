@@ -1,3 +1,5 @@
+@import "mixins";
+
 $sidebar-background-color: black;
 $sidebar-main-font-color: white;
 $sidebar-second-font-color: #878787;
@@ -12,69 +14,17 @@ $comment-background:#F7F6F3;
 $comment-icon-background: #FFF8DD;
 $download-background:#E3EFFF;
 
-
-@mixin square-block($size) {
-  width: $size;
-  height: $size;
-}
-
-@mixin circle($size, $color) {
-  @include square-block($size);
-  border-radius: 50%;
-  background-color: $color;
-}
-
-@mixin icon($size, $url) {
-  content: "";
-  position: absolute;
-  background: url($url) center center;
-  background-size: cover;
-  @include square-block($size);
-}
-
-@mixin button($color) {
-  @extend %cursor;
-  background-color: $color;
-  border-radius: 15px;
-  margin: 0 8px;
-  padding: 10px 15px 8px 15px;
-  font-size: 14px;
-}
-
-%flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-%cursor {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-%dots-button {
-  @extend %flex-center;
-  @extend %cursor;
-  @include square-block(30px);
-}
-
 @font-face {
   font-family: Helvetica;
   src: url("../fonts/HelveticaRegular.ttf");
 }
 
-html {
-  //maybe only height
-  @include square-block(100%);
-}
-
 body {
   margin: 0;
-  @include square-block(100%);
   font-family: Helvetica, Verdana, serif;
   font-size: 16px;
   color: $content-font-color;
+  line-height: 1.2rem;
 }
 
 button {
@@ -86,7 +36,7 @@ button {
 
 .wrap {
   display: flex;
-  height: 100%;
+  min-height: 100vh;
 }
 
 // Sidebar
@@ -262,14 +212,13 @@ button {
   margin-top: 20px;
   position: relative;
   display: flex;
+  line-height: normal;
 
   &:before {
-    @include icon(40px, "../img/shapes@2x.png");
-    background: $gold-highlight url("../img/shapes@2x.png") center center;
+    @include icon(40px, -53px, -8px, "../img/shapes@2x.png");
+    background: $gold-highlight url("../img/shapes@2x.png") center center no-repeat;
     background-size: cover;
-    border-radius: 5px;
-    left: -53px;
-    top: -8px;
+    border-radius: 8px;
   }
 }
 
@@ -297,7 +246,7 @@ button {
   padding: 0 5px;
 
   img {
-    @include square-block(30px);
+    @include square-block(inherit);
     border-radius: 50%;
   }
 }
@@ -313,9 +262,7 @@ button {
   padding-left: 45px;
 
   &:before {
-    @include icon(18px, "../img/combined-shape@1x.svg");
-    left: 18px;
-    top: 6px;
+    @include icon(18px, 18px, 6px, "../img/combined-shape@1x.svg");
   }
 }
 
@@ -332,7 +279,14 @@ button {
 
       a {
         text-decoration: none;
-        color: $content-font-color;
+        color: rgba($content-font-color, 0.7);
+        @extend %cursor;
+
+        &.active {
+          color: $content-font-color;
+          border-bottom: 2px solid $gold-highlight;
+          padding-bottom: 17px;
+        }
       }
     }
   }
@@ -340,11 +294,103 @@ button {
 
 .content-wrap {
   @extend %flex-center;
+  flex-direction: column;
   background-color: $content-background;
-  height: 100%;
+  flex: 1 0 auto;
 }
 
 .activity {
   background-color: white;
   padding: 35px 30px;
+  max-width: 670px;
+  border-radius: 8px;
+}
+
+.content__date {
+  font-size: 14px;
+  color: rgba($content-font-color, 0.5);
+}
+
+.activity__item {
+  display: flex;
+  align-items: baseline;
+}
+
+.activity__description-block {
+  display: flex;
+}
+
+.activity__description {
+  max-width: 520px;
+}
+
+.activity__time {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  font-size: 14px;
+  color: rgba($content-font-color, 0.7);
+  min-width: 65px;
+}
+
+.done-icon, .comment-icon, .download-icon {
+  position: relative;
+  margin-right: 20px;
+  top: 24px;
+}
+
+.done-icon {
+  @include circle(40px, $green-highlight);
+
+  &:before {
+    @include icon(9px, 15px, 16px, "../img/cheked@3x.svg");
+    width: 12px;
+  }
+}
+
+.comment-icon {
+  @include circle(40px, $comment-icon-background);
+
+  &:before {
+    @include icon(18px, 12px, 12px, "../img/comment-icon.png");
+    background-size: cover;
+  }
+}
+
+.download-icon {
+  @include circle(40px, $download-background);
+
+  &:before {
+    @include icon(15px, 13px, 12px, "../img/download-icon.png");
+    background-size: cover;
+  }
+}
+
+.activity__comment {
+  padding: 20px 30px;
+  margin-bottom: 0;
+  background-color: $comment-background;
+  border-radius: 10px;
+}
+
+.activity__img {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-top: 0;
+
+    li {
+      list-style-type: none;
+      padding-top: 10px;
+      padding-right: 10px;
+      @include square-block(100px);
+
+      img {
+        @include square-block(inherit);
+        object-fit: cover;
+        border-radius: 8px;
+      }
+    }
+  }
 }
