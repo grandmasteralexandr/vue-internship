@@ -1,3 +1,3 @@
-#Vue.js internship
+# Vue.js internship
 
 Alexandr Okunev
