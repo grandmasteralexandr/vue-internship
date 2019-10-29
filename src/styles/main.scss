@@ -24,7 +24,7 @@ body {
   font-family: Helvetica, Verdana, serif;
   font-size: 16px;
   color: $content-font-color;
-  line-height: 1.2rem;
+  line-height: 1.2em;
 }
 
 button {
@@ -177,13 +177,13 @@ button {
 }
 
 .count-highlight {
+  @include square-block(20px);
+  @extend %flex-center;
   background-color: $gold-highlight;
   color: $content-font-color;
   font-size: 13px;
-  @include square-block(20px);
   border-radius: 50%;
   margin-left: 10px;
-  @extend %flex-center;
 }
 
 // Main content
@@ -202,14 +202,13 @@ button {
 .content__header-top-line {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 15px;
   justify-content: space-between;
+  margin-top: 15px;
 }
 
 .content__title {
   font-size: 32px;
-  margin-left: 83px;
-  margin-top: 20px;
+  margin: 20px 10px 0 83px;
   position: relative;
   display: flex;
   line-height: normal;
@@ -226,11 +225,11 @@ button {
   @extend %dots-button;
   background-color: $gray-highlight;
   border-radius: 50%;
-  margin-left: 10px;
+  margin: 0 10px;
 }
 
 .content__header-buttons-block {
-  margin: 20px 22px 0 25px;
+  margin: 10px 22px 0 25px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -239,11 +238,17 @@ button {
 .share {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  margin-right: 10px;
 }
 
 .share__avatar {
   @include square-block(30px);
-  padding: 0 5px;
+  padding: 10px 5px;
+
+  &:last-of-type {
+    padding-right: 10px;
+  }
 
   img {
     @include square-block(inherit);
@@ -253,6 +258,10 @@ button {
 
 .share__button {
   @include button($gray-highlight);
+}
+
+.chat {
+  padding: 10px 0;
 }
 
 .chat__button {
@@ -271,16 +280,16 @@ button {
     display: flex;
     flex-wrap: wrap;
     padding: 0;
-    margin: 24px 10px 16px 14px;
+    margin: 6px 10px 16px 30px;
 
     li {
       list-style-type: none;
-      padding: 0 16px;
+      padding: 16px 16px 0 0;
 
       a {
         text-decoration: none;
         color: rgba($content-font-color, 0.7);
-        @extend %cursor;
+        cursor: pointer;
 
         &.active {
           color: $content-font-color;
@@ -302,6 +311,7 @@ button {
 .activity {
   background-color: white;
   padding: 35px 30px;
+  margin-top: 15px;
   max-width: 670px;
   border-radius: 8px;
 }
@@ -394,3 +404,5 @@ button {
     }
   }
 }
+
+@import "media";

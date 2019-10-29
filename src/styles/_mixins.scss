@@ -20,10 +20,9 @@
 }
 
 @mixin button($color) {
-  @extend %cursor;
+  cursor: pointer;
   background-color: $color;
   border-radius: 15px;
-  margin: 0 8px;
   padding: 10px 15px 8px 15px;
   font-size: 14px;
 }
@@ -34,14 +33,9 @@
   align-items: center;
 }
 
-%cursor {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
 %dots-button {
   @extend %flex-center;
-  @extend %cursor;
   @include square-block(30px);
+  cursor: pointer;
+  min-width: 30px;
 }
