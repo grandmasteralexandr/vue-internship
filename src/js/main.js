@@ -10,7 +10,7 @@ const activityImgs = document.querySelectorAll(".activity__img-item > img");
 
 /* Event listeners */
 completedTaskBlock.addEventListener("click", completeTask);
-activityImgBlock.addEventListener("click", () => changeNotification(event));
+activityImgBlock.addEventListener("click", changeNotification);
 
 /**
  * Complete task and reduce open tasks
@@ -37,12 +37,10 @@ function completeTask() {
 
 /**
  * Change notification on img index
- *
- * @param e event
  */
-function changeNotification(e) {
+function changeNotification() {
     activityImgs.forEach((img, index) => {
-            if (img === e.target) {
+            if (img === event.target) {
                 notificationCount.innerText = index;
             }
         }
