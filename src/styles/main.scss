@@ -142,6 +142,7 @@ button {
 
 .completed-tasks {
   margin-left: 30px;
+  cursor: pointer;
 }
 
 .open-tasks {
@@ -400,6 +401,7 @@ button {
         @include square-block(inherit);
         object-fit: cover;
         border-radius: 8px;
+        cursor: pointer;
       }
     }
   }
