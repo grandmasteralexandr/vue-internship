@@ -290,7 +290,8 @@ button {
 }
 
 .content-wrap {
-  @extend %flex-center;
+  display: flex;
+  align-items: center;
   flex-direction: column;
   background-color: $content-background;
   flex: 1 0 auto;
