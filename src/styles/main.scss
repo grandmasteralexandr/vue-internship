@@ -1,22 +1,9 @@
 @import "mixins";
-
-$sidebar-background-color: black;
-$sidebar-main-font-color: white;
-$sidebar-second-font-color: #878787;
-$content-font-color: #131313;
-$content-background: #eeebe5;
-$user-block-color: #202020;
-$gold-highlight: #FFC200;
-$gray-highlight: #EAEAEA;
-$green-highlight: #CEF9C6;
-$chat-button-background: #FFF8DD;
-$comment-background:#F7F6F3;
-$comment-icon-background: #FFF8DD;
-$download-background:#E3EFFF;
+@import "variables";
 
 @font-face {
   font-family: Helvetica;
-  src: url("../fonts/HelveticaRegular.ttf");
+  src: url("./fonts/HelveticaRegular.ttf");
 }
 
 body {
@@ -54,7 +41,7 @@ button {
   padding: 30px;
 
   &:before {
-    content: url("../img/logo@3x.svg");
+    content: url("./img/logo@3x.svg");
     float: left;
     position: relative;
     left: -13px;
@@ -62,7 +49,7 @@ button {
   }
 
   &:after {
-    content: url("../img/search@3x.svg");
+    content: url("./img/search@3x.svg");
     position: relative;
     left: 72px;
     top: 2px;
@@ -83,7 +70,7 @@ button {
 
   &:before {
     content: "";
-    background: url("../img/user-avatar.jpeg") center center;
+    background: url("./img/user-avatar.jpeg") center center;
     background-size: cover;
     @include square-block(48px);
     border-radius: 50%;
@@ -215,8 +202,8 @@ button {
   line-height: normal;
 
   &:before {
-    @include icon(40px, -53px, -8px, "../img/shapes@2x.png");
-    background: $gold-highlight url("../img/shapes@2x.png") center center no-repeat;
+    @include icon(40px, -53px, -8px, "./img/shapes@2x.png");
+    background: $gold-highlight url("./img/shapes@2x.png") center center no-repeat;
     background-size: cover;
     border-radius: 8px;
   }
@@ -272,7 +259,7 @@ button {
   padding-left: 45px;
 
   &:before {
-    @include icon(18px, 18px, 6px, "../img/combined-shape@1x.svg");
+    @include icon(18px, 18px, 6px, "./img/combined-shape@1x.svg");
   }
 }
 
@@ -312,7 +299,7 @@ button {
 .activity {
   background-color: white;
   padding: 35px 30px;
-  margin-top: 15px;
+  margin-top: 30px;
   max-width: 670px;
   border-radius: 8px;
 }
@@ -354,7 +341,7 @@ button {
   @include circle(40px, $green-highlight);
 
   &:before {
-    @include icon(9px, 15px, 16px, "../img/cheked@3x.svg");
+    @include icon(9px, 15px, 16px, "./img/cheked@3x.svg");
     width: 12px;
   }
 }
@@ -363,7 +350,7 @@ button {
   @include circle(40px, $comment-icon-background);
 
   &:before {
-    @include icon(18px, 12px, 12px, "../img/comment-icon.png");
+    @include icon(18px, 12px, 12px, "./img/comment-icon.png");
     background-size: cover;
   }
 }
@@ -372,7 +359,7 @@ button {
   @include circle(40px, $download-background);
 
   &:before {
-    @include icon(15px, 13px, 12px, "../img/download-icon.png");
+    @include icon(15px, 13px, 12px, "./img/download-icon.png");
     background-size: cover;
   }
 }
