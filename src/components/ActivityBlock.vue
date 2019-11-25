@@ -2,26 +2,26 @@
   <div class="activity">
     <div v-for="(activityForDay, index) in activities"
          :key="index"
-         class="activity__for-day"
+         class="activity-for-day"
     >
-      <div class="content__date">{{activityForDay.activityDate}}</div>
+      <div class="content-date">{{activityForDay.activityDate}}</div>
       <div v-for="(activity, index) in activityForDay.activityItems"
            :key="index"
-           class="activity__item"
+           class="activity-item"
       >
         <div :class="activity.iconClass"></div>
-        <div class="activity__item-wrap">
-          <p class="activity__description">
+        <div class="activity-item-wrap">
+          <p class="activity-description">
             {{activity.description}}
           </p>
-          <p v-if="activity.comment" class="activity__comment">
+          <p v-if="activity.comment" class="activity-comment">
             {{activity.comment}}
           </p>
-          <div v-if="activity.imgs" class="activity__img">
-            <ul class="activity__img-box">
+          <div v-if="activity.imgs" class="activity-img">
+            <ul class="activity-img-box">
               <li v-for="(img, index) in activity.imgs"
                   :key="index"
-                  class="activity__img-item"
+                  class="activity-img-item"
               >
                 <img :src="getImgUrl(img)"
                      @click="$emit('activityImgClick', index)"
@@ -31,7 +31,7 @@
             </ul>
           </div>
         </div>
-        <time :datetime="activity.datetime" class="activity__time">{{activity.time}}</time>
+        <time :datetime="activity.datetime" class="activity-time">{{activity.time}}</time>
       </div>
     </div>
   </div>
@@ -88,6 +88,103 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .activity {
+    background-color: white;
+    padding: 35px 30px;
+    margin-top: 30px;
+    max-width: 730px;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
 
+  .content-date {
+    font-size: 14px;
+    color: rgba($content-font-color, 0.5);
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .activity-description-block {
+    display: flex;
+  }
+
+  .activity-description {
+    max-width: 520px;
+  }
+
+  .activity-time {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    font-size: 14px;
+    color: rgba($content-font-color, 0.7);
+    min-width: 65px;
+  }
+
+  .done-icon, .comment-icon, .download-icon {
+    position: relative;
+    margin-right: 20px;
+    top: 24px;
+  }
+
+  .done-icon {
+    @include circle(40px, $green-highlight);
+
+    &:before {
+      @include icon(9px, 15px, 16px, "./../img/cheked@3x.svg");
+      width: 12px;
+    }
+  }
+
+  .comment-icon {
+    @include circle(40px, $comment-icon-background);
+
+    &:before {
+      @include icon(18px, 12px, 12px, "./../img/comment-icon.png");
+      background-size: cover;
+    }
+  }
+
+  .download-icon {
+    @include circle(40px, $download-background);
+
+    &:before {
+      @include icon(15px, 13px, 12px, "./../img/download-icon.png");
+      background-size: cover;
+    }
+  }
+
+  .activity-comment {
+    padding: 20px 30px;
+    margin-bottom: 0;
+    background-color: $comment-background;
+    border-radius: 10px;
+  }
+
+  .activity-img {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      margin-top: 0;
+
+      li {
+        list-style-type: none;
+        padding-top: 10px;
+        padding-right: 10px;
+        @include square-block(100px);
+
+        img {
+          @include square-block(inherit);
+          object-fit: cover;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 </style>

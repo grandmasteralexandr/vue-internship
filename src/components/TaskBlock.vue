@@ -48,8 +48,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "@/styles/_variables";
-
   .tasks {
     display: flex;
     flex-direction: column;
@@ -75,6 +73,6 @@ export default {
 
   .task-planed-completion-date {
     font-size: 14px;
-   color: rgba($content-font-color, 0.7);
+    color: rgba($content-font-color, 0.7);
   }
 </style>
