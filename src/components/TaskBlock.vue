@@ -1,14 +1,12 @@
-<template>
-  <div class="tasks">
-    <div v-for="(task, index) in tasks"
-         :key="index"
-         class="task-item"
-    >
-      <div class="task-name">{{task.name}}</div>
-      <div class="task-description">{{task.description}}</div>
-      <div class="task-planed-completion-date">Planned completion date: {{task.planedCompletionDate}}</div>
-    </div>
-  </div>
+<template lang="pug">
+  .tasks
+    .task-item(
+      v-for="(task, index) in tasks"
+      :key="index"
+    )
+      .task-name {{task.name}}
+      .task-description {{task.description}}
+      .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
 </template>
 
 <script>

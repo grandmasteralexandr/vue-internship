@@ -1,46 +1,32 @@
-<template>
-  <div class="header">
-    <div class="header-top-line">
-      <div class="title">
-        <div>{{projectName}}</div>
-        <div class="settings-button">
-          <div class="dots"></div>
-        </div>
-      </div>
-      <div class="header-buttons-block">
-        <div class="share">
-          <div
-              v-for="(sharedAvatar, index) in sharedAvatars"
-              :key="index"
-              class="share-avatar"
-          >
-            <img :src="getImgUrl(sharedAvatar)" alt="Avatar">
-          </div>
-          <button class="share-button">Share</button>
-        </div>
-        <div class="chat">
-          <button class="chat-button">Chat</button>
-        </div>
-      </div>
-    </div>
-    <nav class="menu">
-      <ul class="menu-container">
-        <li
-            v-for="(contentTab, index) in contentTabs"
+<template lang="pug">
+  .header
+    .header-top-line
+      .title
+        .project-name {{projectName}}
+        .settings-button
+          .dots
+      .header-buttons-block
+        .share
+          .share-avatar(
+            v-for="(sharedAvatar, index) in sharedAvatars"
             :key="index"
-            @click.prevent="changeContentTab(contentTab.component)"
-            class="menu-item"
-        >
-          <a
-              href="#"
-              :class="['content-menu-link', {active: contentTab.component === currentContentTab}]"
-          >
-            {{contentTab.name}}
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+          )
+            img(:src="getImgUrl(sharedAvatar)" alt="Avatar")
+          button.share-button Share
+        .chat
+          button.chat-button Chat
+    nav.menu
+      ul.menu-container
+        li.menu-item(
+          v-for="(contentTab, index) in contentTabs"
+          :key="index"
+          @click.prevent="changeContentTab(contentTab.component)"
+        )
+          a(
+            href="#"
+            :class="['content-menu-link', {active: contentTab.component === currentContentTab}]"
+          )
+            | {{contentTab.name}}
 </template>
 
 <script>

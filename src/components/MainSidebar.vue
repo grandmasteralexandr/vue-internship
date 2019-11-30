@@ -1,41 +1,31 @@
-<template>
-  <div class="sidebar">
-    <div class="logo">
-      <div class="logo-name">PROJECTUS</div>
-    </div>
-    <div class="main-menu-wrap">
-      <div class="user">
-        <div class="user-info">
-          <div class="user-name">{{userName}}</div>
-          <div class="user-role">{{userRole}}</div>
-        </div>
-        <div class="user-setting-button">
-          <div class="dots"></div>
-        </div>
-      </div>
-      <div class="tasks">
-        <div @click="completeTask" class="completed-tasks">
-          <div class="task-count">{{completedTaskCount}}</div>
-          <div class="task-status">Completed Tasks</div>
-        </div>
-        <div class="open-tasks">
-          <div class="task-count">{{openTaskCount}}</div>
-          <div class="task-status">Open Tasks</div>
-        </div>
-      </div>
-      <nav class="main-menu">
-        <div class="main-menu-name">MENU</div>
-        <ul class="main-menu-container">
-          <li class="main-menu-item"><a href="#" class="main-menu-link">Home</a></li>
-          <li class="main-menu-item"><a href="#" class="main-menu-link">My Tasks</a></li>
-          <li class="main-menu-item"><a href="#" class="main-menu-link">Notifications
-            <span class="count-highlight">{{notificationCount}}</span>
-          </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+<template lang="pug">
+  .sidebar
+    .logo
+      .logo-name PROJECTUS
+    .main-menu-wrap
+      .user
+        .user-info
+          .user-name {{userName}}
+          .user-role {{userRole}}
+        .user-setting-button
+          .dots
+      .tasks
+        .completed-tasks(@click="completeTask")
+          .task-count {{completedTaskCount}}
+          .task-status Completed Tasks
+        .open-tasks
+          .task-count {{openTaskCount}}
+          .task-status Open Tasks
+      nav.main-menu
+        .main-menu-name MENU
+        ul.main-menu-container
+          li.main-menu-item
+            a.main-menu-link(href="#") Home
+          li.main-menu-item
+            a.main-menu-link(href="#") My Tasks
+          li.main-menu-item
+            a.main-menu-link(href="#") Notifications
+              span.count-highlight {{notificationCount}}
 </template>
 
 <script>

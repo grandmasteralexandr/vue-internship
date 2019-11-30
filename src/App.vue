@@ -1,7 +1,6 @@
-<template>
-  <div id="app">
-    <LayoutDefault/>
-  </div>
+<template lang="pug">
+  #app
+    LayoutDefault
 </template>
 
 <script>

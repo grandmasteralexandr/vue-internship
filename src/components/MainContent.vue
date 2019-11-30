@@ -1,11 +1,9 @@
-<template>
-  <div class="content-wrap">
-    <component
-        :is="currentContentTab"
-        @activityImgClick="$emit('activityImgClick', $event)"
-    >
-    </component>
-  </div>
+<template lang="pug">
+  .content-wrap
+    component(
+      :is="currentContentTab"
+      @activityImgClick="$emit('activityImgClick', $event)"
+    )
 </template>
 
 <script>

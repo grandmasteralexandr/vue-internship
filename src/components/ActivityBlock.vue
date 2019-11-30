@@ -1,40 +1,39 @@
-<template>
-  <div class="activity">
-    <div v-for="(activityForDay, index) in activities"
-         :key="index"
-         class="activity-for-day"
-    >
-      <div class="content-date">{{activityForDay.activityDate}}</div>
-      <div v-for="(activity, index) in activityForDay.activityItems"
-           :key="index"
-           class="activity-item"
-      >
-        <div :class="activity.iconClass"></div>
-        <div class="activity-item-wrap">
-          <p class="activity-description">
-            {{activity.description}}
-          </p>
-          <p v-if="activity.comment" class="activity-comment">
-            {{activity.comment}}
-          </p>
-          <div v-if="activity.imgs" class="activity-img">
-            <ul class="activity-img-box">
-              <li v-for="(img, index) in activity.imgs"
-                  :key="index"
-                  class="activity-img-item"
-              >
-                <img :src="getImgUrl(img)"
-                     @click="$emit('activityImgClick', index)"
-                     alt="Activity Img"
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-        <time :datetime="activity.datetime" class="activity-time">{{activity.time}}</time>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+  .activity
+    .activity-for-day(
+      v-for="(activityForDay, index) in activities"
+      :key="index"
+    )
+      .content-date {{activityForDay.activityDate}}
+      .activity-item(
+        v-for="(activity, index) in activityForDay.activityItems"
+        :key="index"
+      )
+        div(:class="activity.iconClass")
+        .activity-item-wrap
+          p.activity-description
+            | {{activity.description}}
+          p.activity-comment(
+            v-if="activity.comment"
+          )
+            | {{activity.comment}}
+          .activity-img(
+            v-if="activity.imgs"
+          )
+            ul.activity-img-box
+              li.activity-img-item(
+                v-for="(img, index) in activity.imgs"
+                :key="index"
+              )
+                img(
+                  :src="getImgUrl(img)"
+                  @click="$emit('activityImgClick', index)"
+                  alt="Activity Img"
+                )
+        time.activity-time(
+          :datetime="activity.datetime"
+        )
+          | {{activity.time}}
 </template>
 
 <script>

@@ -1,14 +1,12 @@
-<template>
-  <div class="wrap">
-    <MainSidebar :notification-count="notificationCount"/>
-    <div class="content">
-      <MainHeader @changeTab="changeCurrentTab($event)"/>
-      <MainContent
-          :current-content-tab="currentContentTab"
-          @activityImgClick="changeNotificationCount($event)"
-      />
-    </div>
-  </div>
+<template lang="pug">
+  .wrap
+    MainSidebar(:notification-count="notificationCount")
+    .content
+      MainHeader(@changeTab="changeCurrentTab($event)")
+      MainContent(
+        :current-content-tab="currentContentTab"
+        @activityImgClick="changeNotificationCount($event)"
+      )
 </template>
 
 <script>
