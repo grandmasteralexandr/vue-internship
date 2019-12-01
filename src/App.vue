@@ -3,13 +3,19 @@
     LayoutDefault
 </template>
 
-<script>
-import LayoutDefault from './components/LayoutDefault'
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import LayoutDefault from './components/LayoutDefault.vue'
 
-export default {
-  name: 'app',
-  components: {
-    LayoutDefault
+@Component(
+  {
+    name: 'app',
+    components: {
+      LayoutDefault
+    }
   }
-}
+)
+
+export default class App extends Vue {}
 </script>

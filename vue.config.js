@@ -10,5 +10,21 @@ module.exports = {
         path.resolve(__dirname, './src/styles/*.scss'),
       ]
     }
+  },
+
+  configureWebpack: {
+    resolve: {
+      extensions: ['.ts', '.js']
+    },
+
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          loader: 'ts-loader',
+          options: { appendTsSuffixTo: [/\.vue$/] }
+        }
+      ]
+    },
   }
 }
