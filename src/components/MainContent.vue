@@ -6,24 +6,31 @@
     )
 </template>
 
-<script>
-import ActivityBlock from './ActivityBlock'
-import TaskBlock from './TaskBlock'
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import ActivityBlock from './ActivityBlock.vue'
+import TaskBlock from './TaskBlock.vue'
 
-export default {
-  name: "MainContent",
-  components: {
-    ActivityBlock,
-    TaskBlock
-  },
+@Component(
+  {
+    name: "MainContent",
 
-  props: {
-    currentContentTab: {
-      type: String,
-      default: 'ActivityBlock'
+    components: {
+      ActivityBlock,
+      TaskBlock
+    },
+
+    props: {
+      currentContentTab: {
+        type: String,
+        default: 'ActivityBlock'
+      }
     }
   }
-}
+)
+
+export default class MainContent extends Vue {}
 </script>
 
 <style scoped lang="scss">

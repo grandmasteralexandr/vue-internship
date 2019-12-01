@@ -28,42 +28,38 @@
               span.count-highlight {{notificationCount}}
 </template>
 
-<script>
-export default {
-  name: 'MainSidebar',
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
-  data() {
-    return {
-      userName: 'Jean Gonzales',
-      userRole: 'Product Owner',
-      completedTaskCount: 372,
-      openTaskCount: 3,
-    }
-  },
+@Component(
+  {
+    name: 'MainSidebar',
 
-  props: {
-    notificationCount: {
-      type: Number,
-      default: 3
-    }
-  },
-
-  methods: {
-    completeTask: function () {
-      if (confirm('Are you sure you want to change the number of tasks?')) {
-        if (this.openTaskCount === 0) {
-          alert('No more open tasks');
-          return;
-        }
-
-        if (typeof this.openTaskCount !== 'number' || typeof this.completedTaskCount !== 'number') {
-          console.log('Task count is not a number');
-          return;
-        }
-
-        this.completedTaskCount++;
-        this.openTaskCount--;
+    props: {
+      notificationCount: {
+        type: Number,
+        default: 3
       }
+    },
+  }
+)
+
+export default class MainSidebar extends Vue {
+  userName: string = 'Jean Gonzales';
+  userRole: string = 'Product Owner';
+  completedTaskCount: number = 372;
+  openTaskCount: number = 3;
+
+  completeTask(): void {
+    if (confirm('Are you sure you want to change the number of tasks?')) {
+      if (this.openTaskCount === 0) {
+        alert('No more open tasks');
+        return;
+      }
+
+      this.completedTaskCount++;
+      this.openTaskCount--;
     }
   }
 }

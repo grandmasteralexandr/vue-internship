@@ -9,34 +9,34 @@
       )
 </template>
 
-<script>
-import MainSidebar from './MainSidebar'
-import MainHeader from './MainHeader'
-import MainContent from './MainContent'
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import MainSidebar from './MainSidebar.vue'
+import MainHeader from './MainHeader.vue'
+import MainContent from './MainContent.vue'
 
-export default {
-  name: "LayoutDefault",
-  components: {
-    MainSidebar,
-    MainHeader,
-    MainContent
-  },
-
-  data() {
-    return {
-      notificationCount: 3,
-      currentContentTab: 'ActivityBlock'
-    }
-  },
-
-  methods: {
-    changeNotificationCount: function (number) {
-      this.notificationCount = number
+@Component(
+  {
+    name: "LayoutDefault",
+    components: {
+      MainSidebar,
+      MainHeader,
+      MainContent
     },
+  }
+)
 
-    changeCurrentTab: function (newTab) {
-      this.currentContentTab = newTab
-    }
+export default class LayoutDefault extends Vue {
+  notificationCount: number = 3;
+  currentContentTab: string = 'ActivityBlock';
+
+  changeNotificationCount(number: number): void {
+    this.notificationCount = number
+  }
+
+  changeCurrentTab(newTab: string): void {
+    this.currentContentTab = newTab
   }
 }
 </script>

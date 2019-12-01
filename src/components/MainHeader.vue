@@ -29,57 +29,62 @@
             | {{contentTab.name}}
 </template>
 
-<script>
-export default {
-  name: "MainHeader",
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import {MenuItem} from "@/types/menuItem";
 
-  data() {
-    return {
-      projectName: 'Website Redesign',
-      sharedAvatars: [
-        'shared-avatar.jpeg',
-        'shared-avatar2.jpeg',
-        'shared-avatar3.jpeg'
-      ],
-      contentTabs: [
-        {
-          name: 'Tasks',
-          component: 'TaskBlock'
-        },
+@Component(
+  {
+    name: "MainHeader",
+  }
+)
 
-        {
-          name: 'Kanban',
-          component: 'KanbanBlock'
-        },
+export default class MainHeader extends Vue {
+  projectName: string = 'Website Redesign';
 
-        {
-          name: 'Activity',
-          component: 'ActivityBlock'
-        },
+  sharedAvatars: string[] = [
+    'shared-avatar.jpeg',
+    'shared-avatar2.jpeg',
+    'shared-avatar3.jpeg'
+  ];
 
-        {
-          name: 'Calendar',
-          component: 'CalendarBlock'
-        },
-
-        {
-          name: 'Files',
-          component: 'FilesBlock'
-        },
-      ],
-      currentContentTab: 'ActivityBlock'
-    }
-  },
-
-  methods: {
-    getImgUrl: function (img) {
-      return require('@/img/' + img)
+  contentTabs: MenuItem[] = [
+    {
+      name: 'Tasks',
+      component: 'TaskBlock'
     },
 
-    changeContentTab: function (changedTab) {
-      this.currentContentTab = changedTab;
-      this.$emit('changeTab', changedTab)
+    {
+      name: 'Kanban',
+      component: 'KanbanBlock'
+    },
+
+    {
+      name: 'Activity',
+      component: 'ActivityBlock'
+    },
+
+    {
+      name: 'Calendar',
+      component: 'CalendarBlock'
+    },
+
+    {
+      name: 'Files',
+      component: 'FilesBlock'
     }
+  ];
+
+  currentContentTab: string = 'ActivityBlock';
+
+  getImgUrl(img: string): any {
+    return require('@/img/' + img)
+  }
+
+  changeContentTab(changedTab: string): void {
+    this.currentContentTab = changedTab;
+    this.$emit('changeTab', changedTab)
   }
 }
 </script>

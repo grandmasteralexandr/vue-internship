@@ -9,39 +9,43 @@
       .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
 </template>
 
-<script>
-export default {
-  name: "TaskBlock",
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import {Task} from "@/types/task";
 
-  data() {
-    return {
-      tasks: [
-        {
-          name: 'Learn Vue Cli',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-          planedCompletionDate: '19/11/2019'
-        },
-
-        {
-          name: 'Learn Vue Components',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-          planedCompletionDate: '22/11/2019'
-        },
-
-        {
-          name: 'Learn Vue Mixins',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-          planedCompletionDate: '23/11/2019'
-        },
-
-        {
-          name: 'Learn Vue best practices',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-          planedCompletionDate: '29/11/2019'
-        },
-      ]
-    }
+@Component(
+  {
+    name: "TaskBlock",
   }
+)
+
+export default class TaskBlock extends Vue {
+  tasks: Task[] = [
+    {
+      name: 'Learn Vue Cli',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      planedCompletionDate: '19/11/2019'
+    },
+
+    {
+      name: 'Learn Vue Components',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      planedCompletionDate: '22/11/2019'
+    },
+
+    {
+      name: 'Learn Vue Mixins',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      planedCompletionDate: '23/11/2019'
+    },
+
+    {
+      name: 'Learn Vue best practices',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      planedCompletionDate: '29/11/2019'
+    },
+  ]
 }
 </script>
 
