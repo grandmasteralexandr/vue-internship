@@ -1,7 +1,6 @@
 <template lang="pug">
   .content-wrap
-    component(
-      :is="currentContentTab"
+    router-view(
       @activityImgClick="$emit('activityImgClick', $event)"
     )
 </template>
@@ -9,24 +8,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import ActivityBlock from './ActivityBlock.vue'
-import TaskBlock from './TaskBlock.vue'
 
 @Component(
   {
     name: "MainContent",
-
-    components: {
-      ActivityBlock,
-      TaskBlock
-    },
-
-    props: {
-      currentContentTab: {
-        type: String,
-        default: 'ActivityBlock'
-      }
-    }
   }
 )
 

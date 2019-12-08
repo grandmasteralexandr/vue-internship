@@ -13,7 +13,7 @@
         .completed-tasks(@click="completeTask")
           .task-count {{completedTaskCount}}
           .task-status Completed Tasks
-        .open-tasks
+        .open-tasks(@click="goToTasks")
           .task-count {{openTaskCount}}
           .task-status Open Tasks
       nav.main-menu
@@ -62,6 +62,15 @@ export default class MainSidebar extends Vue {
       this.openTaskCount--;
     }
   }
+
+  goToTasks(): void {
+    if (this.openTaskCount === 0) {
+      alert('No more open tasks');
+      return;
+    }
+
+    this.$router.push({name: 'Tasks'})
+  }
 }
 </script>
 
@@ -79,7 +88,7 @@ export default class MainSidebar extends Vue {
     padding: 30px;
 
     &:before {
-      content: url("./../img/logo@3x.svg");
+      content: url("../../img/logo@3x.svg");
       float: left;
       position: relative;
       left: -13px;
@@ -87,7 +96,7 @@ export default class MainSidebar extends Vue {
     }
 
     &:after {
-      content: url("./../img/search@3x.svg");
+      content: url("../../img/search@3x.svg");
       position: relative;
       left: 72px;
       top: 2px;
@@ -108,7 +117,7 @@ export default class MainSidebar extends Vue {
 
     &:before {
       content: "";
-      background: url("./../img/user-avatar.jpeg") center center;
+      background: url("../../img/user-avatar.jpeg") center center;
       background-size: cover;
       @include square-block(48px);
       border-radius: 50%;
@@ -172,6 +181,7 @@ export default class MainSidebar extends Vue {
 
   .open-tasks {
     margin-left: 20px;
+    cursor: pointer;
   }
 
   .task-count {

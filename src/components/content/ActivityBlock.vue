@@ -136,7 +136,7 @@ export default class ActivityBlock extends Vue {
     @include circle(40px, $green-highlight);
 
     &:before {
-      @include icon(9px, 15px, 16px, "./../img/cheked@3x.svg");
+      @include icon(9px, 15px, 16px, "../../img/cheked@3x.svg");
       width: 12px;
     }
   }
@@ -145,7 +145,7 @@ export default class ActivityBlock extends Vue {
     @include circle(40px, $comment-icon-background);
 
     &:before {
-      @include icon(18px, 12px, 12px, "./../img/comment-icon.png");
+      @include icon(18px, 12px, 12px, "../../img/comment-icon.png");
       background-size: cover;
     }
   }
@@ -154,7 +154,7 @@ export default class ActivityBlock extends Vue {
     @include circle(40px, $download-background);
 
     &:before {
-      @include icon(15px, 13px, 12px, "./../img/download-icon.png");
+      @include icon(15px, 13px, 12px, "../../img/download-icon.png");
       background-size: cover;
     }
   }

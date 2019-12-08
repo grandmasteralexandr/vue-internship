@@ -2,9 +2,8 @@
   .wrap
     MainSidebar(:notification-count="notificationCount")
     .content
-      MainHeader(@changeTab="changeCurrentTab($event)")
+      MainHeader
       MainContent(
-        :current-content-tab="currentContentTab"
         @activityImgClick="changeNotificationCount($event)"
       )
 </template>
@@ -12,9 +11,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import MainSidebar from './MainSidebar.vue'
-import MainHeader from './MainHeader.vue'
-import MainContent from './MainContent.vue'
+import MainSidebar from '../main/MainSidebar.vue'
+import MainHeader from '../main/MainHeader.vue'
+import MainContent from '../main/MainContent.vue'
 
 @Component(
   {
@@ -29,14 +28,9 @@ import MainContent from './MainContent.vue'
 
 export default class LayoutDefault extends Vue {
   notificationCount: number = 3;
-  currentContentTab: string = 'ActivityBlock';
 
   changeNotificationCount(number: number): void {
     this.notificationCount = number
-  }
-
-  changeCurrentTab(newTab: string): void {
-    this.currentContentTab = newTab
   }
 }
 </script>
@@ -44,7 +38,7 @@ export default class LayoutDefault extends Vue {
 <style lang="scss">
   @font-face {
     font-family: Helvetica;
-    src: url("./../fonts/HelveticaRegular.ttf");
+    src: url("../../fonts/HelveticaRegular.ttf");
   }
 
   body {

@@ -20,19 +20,17 @@
         li.menu-item(
           v-for="(contentTab, index) in contentTabs"
           :key="index"
-          @click.prevent="changeContentTab(contentTab.component)"
         )
-          a(
-            href="#"
-            :class="['content-menu-link', {active: contentTab.component === currentContentTab}]"
+          router-link.content-menu-link(
+            :to="{name: contentTab}"
+            active-class="active"
           )
-            | {{contentTab.name}}
+            | {{contentTab}}
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import {MenuItem} from "@/types/menuItem";
 
 @Component(
   {
@@ -49,42 +47,16 @@ export default class MainHeader extends Vue {
     'shared-avatar3.jpeg'
   ];
 
-  contentTabs: MenuItem[] = [
-    {
-      name: 'Tasks',
-      component: 'TaskBlock'
-    },
-
-    {
-      name: 'Kanban',
-      component: 'KanbanBlock'
-    },
-
-    {
-      name: 'Activity',
-      component: 'ActivityBlock'
-    },
-
-    {
-      name: 'Calendar',
-      component: 'CalendarBlock'
-    },
-
-    {
-      name: 'Files',
-      component: 'FilesBlock'
-    }
+  contentTabs: string[] = [
+    'Tasks',
+    'Kanban',
+    'Activity',
+    'Calendar',
+    'Files',
   ];
-
-  currentContentTab: string = 'ActivityBlock';
 
   getImgUrl(img: string): any {
     return require('@/img/' + img)
-  }
-
-  changeContentTab(changedTab: string): void {
-    this.currentContentTab = changedTab;
-    this.$emit('changeTab', changedTab)
   }
 }
 </script>
@@ -110,8 +82,8 @@ export default class MainHeader extends Vue {
     line-height: normal;
 
     &:before {
-      @include icon(40px, -53px, -8px, "./../img/shapes@2x.png");
-      background: $gold-highlight url("./../img/shapes@2x.png") center center no-repeat;
+      @include icon(40px, -53px, -8px, "../../img/shapes@2x.png");
+      background: $gold-highlight url("../../img/shapes@2x.png") center center no-repeat;
       background-size: cover;
       border-radius: 8px;
     }
@@ -190,7 +162,7 @@ export default class MainHeader extends Vue {
     padding-left: 45px;
 
     &:before {
-      @include icon(18px, 18px, 6px, "./../img/combined-shape@1x.svg");
+      @include icon(18px, 18px, 6px, "../../img/combined-shape@1x.svg");
     }
   }
 

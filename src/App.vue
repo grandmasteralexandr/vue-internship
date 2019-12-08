@@ -6,7 +6,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import LayoutDefault from './components/LayoutDefault.vue'
+import LayoutDefault from './components/layout/LayoutDefault.vue'
 
 @Component(
   {
