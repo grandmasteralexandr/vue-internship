@@ -53,7 +53,7 @@ export default class MainSidebar extends Vue {
       }
 
       this.completedTaskCount++;
-      this.openTaskCount--;
+      this.$emit('changeTaskCount', this.openTaskCount - 1);
     }
   }
 

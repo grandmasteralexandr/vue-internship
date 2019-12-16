@@ -3,6 +3,7 @@
     MainSidebar(
       :notification-count="notificationCount"
       :open-task-count="openTaskCount"
+      @changeTaskCount="changeOpenTaskCount($event)"
     )
     .content
       MainHeader
