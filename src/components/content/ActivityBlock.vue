@@ -39,7 +39,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import {Activity} from "@/types/activity";
+import {ActivityInterface} from "@/types/ActivityInterface";
 
 @Component(
   {
@@ -48,7 +48,7 @@ import {Activity} from "@/types/activity";
 )
 
 export default class ActivityBlock extends Vue {
-  activities: Activity[] = [
+  activities: ActivityInterface[] = [
     {
       activityDate: 'TODAY',
       activityItems: [

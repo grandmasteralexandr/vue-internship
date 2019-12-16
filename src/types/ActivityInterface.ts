@@ -1,10 +1,10 @@
-export interface Activity {
+export interface ActivityInterface {
   activityDate: string;
-  activityItems: ActivityItem[];
+  activityItems: ActivityItemInterface[];
 
 }
 
-export interface ActivityItem {
+export interface ActivityItemInterface {
   iconClass: string;
   description: string;
   datetime: string;
