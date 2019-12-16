@@ -18,6 +18,7 @@
         placeholder="Some name"
         v-model="newTaskName"
         :class="{'input-error': errors.find(item => item.input === 'name') }"
+        required
       )
       label.label(for="description") Description:
       input.input#description(
@@ -25,6 +26,7 @@
         placeholder="Some description"
         v-model="newTaskDescription"
         :class="{'input-error': errors.find(item => item.input === 'description') }"
+        required
       )
       button.add-button Add Task
 
@@ -78,6 +80,7 @@ export default class TaskBlock extends Vue {
       return;
     }
 
+    //add errors if 'required' delete in HTML
     this.errors = [];
 
     if (!this.newTaskName) {
