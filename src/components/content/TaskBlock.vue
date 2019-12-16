@@ -62,7 +62,7 @@ export default class TaskBlock extends Vue {
     {
       name: 'Learn Vue Cli',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-      planedCompletionDate: '19/11/2019'
+      planedCompletionDate: '11/19/2019'
     }
   ];
 
@@ -71,7 +71,7 @@ export default class TaskBlock extends Vue {
       this.tasks.push({
         name: this.newTaskName,
         description: this.newTaskDescription,
-        planedCompletionDate: '01/01/2020'
+        planedCompletionDate: this.getDate()
       });
 
       this.newTaskName = '';
@@ -96,6 +96,12 @@ export default class TaskBlock extends Vue {
         text: 'Description cannot be blank'
       })
     }
+  }
+
+  getDate(): string {
+    // week in milliseconds
+    const increaseTime: number = 604800000;
+    return new Date(Date.now() + increaseTime).toLocaleDateString('en-US');
   }
 
   deleteTask(index: number): void {
