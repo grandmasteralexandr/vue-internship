@@ -29,27 +29,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component(
   {
     name: 'MainSidebar',
-
-    props: {
-      notificationCount: {
-        type: Number,
-        default: 3
-      }
-    },
   }
 )
 
 export default class MainSidebar extends Vue {
+  @Prop({default: 3}) notificationCount: number;
+  @Prop({default: 0}) openTaskCount: number;
+
   userName: string = 'Jean Gonzales';
   userRole: string = 'Product Owner';
   completedTaskCount: number = 372;
-  openTaskCount: number = 3;
 
   completeTask(): void {
     if (confirm('Are you sure you want to change the number of tasks?')) {

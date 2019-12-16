@@ -1,10 +1,14 @@
 <template lang="pug">
   .wrap
-    MainSidebar(:notification-count="notificationCount")
+    MainSidebar(
+      :notification-count="notificationCount"
+      :open-task-count="openTaskCount"
+    )
     .content
       MainHeader
       MainContent(
         @activityImgClick="changeNotificationCount($event)"
+        @changeTaskCount="changeOpenTaskCount($event)"
       )
 </template>
 
@@ -28,9 +32,14 @@ import MainContent from '../main/MainContent.vue'
 
 export default class LayoutDefault extends Vue {
   notificationCount: number = 3;
+  openTaskCount: number = 0;
 
   changeNotificationCount(number: number): void {
     this.notificationCount = number
+  }
+
+  changeOpenTaskCount(taskCount: number): void {
+      this.openTaskCount = taskCount;
   }
 }
 </script>

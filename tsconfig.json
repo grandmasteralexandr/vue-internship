@@ -8,7 +8,8 @@
         "src/*"
       ]
     },
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   },
   "exclude": [
     "node_modules"

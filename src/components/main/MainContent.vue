@@ -2,6 +2,7 @@
   .content-wrap
     router-view(
       @activityImgClick="$emit('activityImgClick', $event)"
+      @changeTaskCount="$emit('changeTaskCount', $event)"
     )
 </template>
 

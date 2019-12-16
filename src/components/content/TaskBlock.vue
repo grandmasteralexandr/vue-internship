@@ -66,6 +66,10 @@ export default class TaskBlock extends Vue {
     }
   ];
 
+  mounted(): void {
+    this.$emit('changeTaskCount', this.tasks.length);
+  }
+
   addTask(): void {
     if (this.newTaskName && this.newTaskDescription) {
       this.tasks.push({
@@ -77,6 +81,7 @@ export default class TaskBlock extends Vue {
       this.newTaskName = '';
       this.newTaskDescription = '';
       this.errors = [];
+      this.$emit('changeTaskCount', this.tasks.length);
       return;
     }
 
@@ -105,7 +110,8 @@ export default class TaskBlock extends Vue {
   }
 
   deleteTask(index: number): void {
-    this.tasks.splice(index, 1)
+    this.tasks.splice(index, 1);
+    this.$emit('changeTaskCount', this.tasks.length);
   }
 }
 </script>
