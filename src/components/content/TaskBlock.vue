@@ -117,7 +117,7 @@ export default class TaskBlock extends Vue {
     background-color: white;
     box-sizing: border-box;
     max-width: 730px;
-    min-width: 320px;
+    min-width: 730px;
     padding: 35px 30px;
     margin-top: 30px;
     border-radius: 8px;
@@ -148,6 +148,7 @@ export default class TaskBlock extends Vue {
 
   .task-item {
     display: flex;
+    justify-content: space-between;
     padding-top: 25px;
   }
 
@@ -188,6 +189,12 @@ export default class TaskBlock extends Vue {
 
     .delete-button {
       margin: 10px 0 0 0;
+    }
+  }
+
+  @media screen and (max-width: 1023px) {
+    .tasks {
+      min-width: 320px;
     }
   }
 </style>
