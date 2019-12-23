@@ -51,7 +51,7 @@ export default class MainSidebar extends Vue {
       return;
     }
 
-    this.$router.push({name: 'Tasks'})
+    this.$router.push({name: 'Tasks'}).catch(err => {})
   }
 }
 </script>
