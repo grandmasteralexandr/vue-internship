@@ -1,6 +1,7 @@
 <template lang="pug">
-  .error
-    h1.red Page Not Found 404
+  .content-container
+    .error
+      h1.red Page Not Found 404
 </template>
 
 <script lang="ts">
