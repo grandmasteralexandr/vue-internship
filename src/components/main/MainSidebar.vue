@@ -38,9 +38,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 )
 
 export default class MainSidebar extends Vue {
-  @Prop({default: 3}) notificationCount: number;
-  @Prop({default: 0}) openTaskCount: number;
-  @Prop({default: 372}) completedTaskCount: number;
+  @Prop({type: Number, default: 3}) notificationCount!: number;
+  @Prop({type: Number, default: 0}) openTaskCount!: number;
+  @Prop({type: Number, default: 372}) completedTaskCount!: number;
 
   userName: string = 'Jean Gonzales';
   userRole: string = 'Product Owner';
