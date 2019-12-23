@@ -30,15 +30,21 @@
       )
       button.add-button Add Task
 
-    .task-item(
-      v-for="(task, index) in tasks"
-      :key="index"
-    )
-      .task-content
-        .task-name {{task.name}}
-        .task-description {{task.description}}
-        .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
-      button.delete-button(@click="deleteTask(index)") Delete
+    transition(name="tasks-block")
+      div(v-if="scaleTasks")
+        transition-group(
+          :css="false"
+          @enter="blinks"
+        )
+          .task-item(
+            v-for="(task, index) in tasks"
+            :key="task.name"
+          )
+            .task-content
+              .task-name {{task.name}}
+              .task-description {{task.description}}
+              .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
+            button.delete-button(@click="deleteTask(index)") Delete
 </template>
 
 <script lang="ts">
@@ -54,19 +60,30 @@ import {InputErrorInterface} from "@/types/InputErrorInterface";
 )
 
 export default class TaskBlock extends Vue {
+  scaleTasks: boolean = false;
   newTaskName: string = '';
   newTaskDescription: string = '';
   errors: InputErrorInterface[] = [];
+  tasks: TaskInterface[] = [];
 
-  tasks: TaskInterface[] = [
-    {
-      name: 'Learn Vue Cli',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-      planedCompletionDate: '11/19/2019'
-    }
-  ];
+  created(): void {
+    this.tasks = [
+      {
+        name: 'Learn Vue Cli',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+        planedCompletionDate: '11/19/2019'
+      },
+
+      {
+        name: 'Some task',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+        planedCompletionDate: '11/22/2019'
+      },
+    ];
+  }
 
   mounted(): void {
+    this.scaleTasks = true;
     this.$emit('changeTaskCount', this.tasks.length);
   }
 
@@ -113,6 +130,22 @@ export default class TaskBlock extends Vue {
     this.tasks.splice(index, 1);
     this.$emit('changeTaskCount', this.tasks.length);
     this.$emit('deleteTask');
+  }
+
+  //using js because transition-group don't correct work with css animation-iteration-count (blink only 1 iteration)
+  blinks(element: Element): void {
+    element.animate(
+      //keyframes
+      {
+        opacity: [1, 0]
+      },
+
+      // timing options
+      {
+        duration: 500,
+        iterations: 4
+      }
+    )
   }
 }
 </script>
@@ -187,6 +220,20 @@ export default class TaskBlock extends Vue {
 
   .input-error {
     border-color: $error-color;
+  }
+
+  .tasks-block-enter-active {
+    animation: scale 2.5s;
+  }
+
+  @keyframes scale {
+    50% {
+      transform: scale(1.3);
+    }
+
+    100% {
+      transform: scale(1);
+    }
   }
 
   @media screen and (max-width: 425px) {
