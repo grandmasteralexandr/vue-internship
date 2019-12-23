@@ -1,5 +1,5 @@
 <template lang="pug">
-  .activity
+  .content-container
     .activity-for-day(
       v-for="(activityForDay, index) in activities"
       :key="index"
@@ -90,15 +90,6 @@ export default class ActivityBlock extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .activity {
-    background-color: white;
-    padding: 35px 30px;
-    margin-top: 30px;
-    max-width: 730px;
-    border-radius: 8px;
-    box-sizing: border-box;
-  }
-
   .content-date {
     font-size: 14px;
     color: rgba($content-font-color, 0.5);

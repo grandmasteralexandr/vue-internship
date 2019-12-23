@@ -1,6 +1,7 @@
 <template lang="pug">
-  .files
-    h1 Coming Soon...
+  .content-container
+    .files
+      h1 Coming Soon...
 </template>
 
 <script lang="ts">

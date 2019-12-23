@@ -1,5 +1,5 @@
 <template lang="pug">
-  .tasks
+  .content-container
     form.add-task-form(@submit.prevent="addTask" novalidate)
       .errors-block(
         v-if="errors.length"
@@ -151,18 +151,6 @@ export default class TaskBlock extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .tasks {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    box-sizing: border-box;
-    max-width: 730px;
-    min-width: 730px;
-    padding: 35px 30px;
-    margin-top: 30px;
-    border-radius: 8px;
-  }
-
   .add-task-form {
     align-self: center;
     display: flex;
@@ -243,12 +231,6 @@ export default class TaskBlock extends Vue {
 
     .delete-button {
       margin: 10px 0 0 0;
-    }
-  }
-
-  @media screen and (max-width: 1023px) {
-    .tasks {
-      min-width: 320px;
     }
   }
 </style>

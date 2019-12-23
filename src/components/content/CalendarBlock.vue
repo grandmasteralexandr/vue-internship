@@ -1,6 +1,7 @@
 <template lang="pug">
-  .calendar
-    h1 Coming Soon...
+  .content-container
+    .calendar
+      h1 Coming Soon...
 </template>
 
 <script lang="ts">

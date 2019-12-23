@@ -1,6 +1,7 @@
 <template lang="pug">
-  .kanban
-    h1 Coming Soon...
+  .content-container
+    .kanban
+      h1 Coming Soon...
 </template>
 
 <script lang="ts">

@@ -83,6 +83,24 @@ export default class LayoutDefault extends Vue {
     width: 100%;
   }
 
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-sizing: border-box;
+    max-width: 730px;
+    min-width: 730px;
+    padding: 35px 30px;
+    margin-top: 30px;
+    border-radius: 8px;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .content-container {
+      min-width: 320px;
+    }
+  }
+
   @media screen and (max-width: 700px) {
     .wrap {
       flex-direction: column;
