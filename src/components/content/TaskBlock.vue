@@ -1,6 +1,6 @@
 <template lang="pug">
   .tasks
-    form.add-task-form(@submit.prevent="addTask")
+    form.add-task-form(@submit.prevent="addTask" novalidate)
       .errors-block(
         v-if="errors.length"
       )
@@ -112,6 +112,7 @@ export default class TaskBlock extends Vue {
   deleteTask(index: number): void {
     this.tasks.splice(index, 1);
     this.$emit('changeTaskCount', this.tasks.length);
+    this.$emit('deleteTask');
   }
 }
 </script>

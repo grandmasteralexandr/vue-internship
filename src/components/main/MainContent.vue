@@ -4,6 +4,7 @@
       router-view(
         @activityImgClick="$emit('activityImgClick', $event)"
         @changeTaskCount="$emit('changeTaskCount', $event)"
+        @deleteTask="$emit('deleteTask')"
       )
 </template>
 

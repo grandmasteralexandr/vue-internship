@@ -10,7 +10,7 @@
         .user-setting-button
           .dots
       .tasks
-        .completed-tasks(@click="completeTask")
+        .completed-tasks
           .task-count {{completedTaskCount}}
           .task-status Completed Tasks
         .open-tasks(@click="goToTasks")
@@ -40,22 +40,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class MainSidebar extends Vue {
   @Prop({default: 3}) notificationCount: number;
   @Prop({default: 0}) openTaskCount: number;
+  @Prop({default: 372}) completedTaskCount: number;
 
   userName: string = 'Jean Gonzales';
   userRole: string = 'Product Owner';
-  completedTaskCount: number = 372;
-
-  completeTask(): void {
-    if (confirm('Are you sure you want to change the number of tasks?')) {
-      if (this.openTaskCount === 0) {
-        alert('No more open tasks');
-        return;
-      }
-
-      this.completedTaskCount++;
-      this.$emit('changeTaskCount', this.openTaskCount - 1);
-    }
-  }
 
   goToTasks(): void {
     if (this.openTaskCount === 0) {
@@ -170,7 +158,6 @@ export default class MainSidebar extends Vue {
 
   .completed-tasks {
     margin-left: 30px;
-    cursor: pointer;
   }
 
   .open-tasks {

@@ -3,13 +3,14 @@
     MainSidebar(
       :notification-count="notificationCount"
       :open-task-count="openTaskCount"
-      @changeTaskCount="changeOpenTaskCount($event)"
+      :completed-task-count="completedTaskCount"
     )
     .content
       MainHeader
       MainContent(
         @activityImgClick="changeNotificationCount($event)"
         @changeTaskCount="changeOpenTaskCount($event)"
+        @deleteTask="changeCompletedTaskCount"
       )
 </template>
 
@@ -34,6 +35,7 @@ import MainContent from '../main/MainContent.vue'
 export default class LayoutDefault extends Vue {
   notificationCount: number = 3;
   openTaskCount: number = 0;
+  completedTaskCount: number = 372;
 
   changeNotificationCount(number: number): void {
     this.notificationCount = number
@@ -41,6 +43,10 @@ export default class LayoutDefault extends Vue {
 
   changeOpenTaskCount(taskCount: number): void {
       this.openTaskCount = taskCount;
+  }
+
+  changeCompletedTaskCount(): void {
+      this.completedTaskCount++;
   }
 }
 </script>
