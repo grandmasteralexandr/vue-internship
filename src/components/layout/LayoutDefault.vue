@@ -2,15 +2,16 @@
   .wrap
     MainSidebar(
       :notification-count="notificationCount"
-      :open-task-count="openTaskCount"
+      :open-task-count="tasks.length"
       :completed-task-count="completedTaskCount"
     )
     .content
       MainHeader
       MainContent(
+        :tasks="tasks"
         @activityImgClick="changeNotificationCount($event)"
-        @changeTaskCount="changeOpenTaskCount($event)"
-        @deleteTask="changeCompletedTaskCount"
+        @addTask="addTask($event)"
+        @deleteTask="deleteTask($event)"
       )
 </template>
 
@@ -20,6 +21,7 @@ import Component from 'vue-class-component'
 import MainSidebar from '../main/MainSidebar.vue'
 import MainHeader from '../main/MainHeader.vue'
 import MainContent from '../main/MainContent.vue'
+import {TaskInterface} from "@/types/TaskInterface";
 
 @Component(
   {
@@ -34,19 +36,32 @@ import MainContent from '../main/MainContent.vue'
 
 export default class LayoutDefault extends Vue {
   notificationCount: number = 3;
-  openTaskCount: number = 0;
   completedTaskCount: number = 372;
+  tasks: TaskInterface[] = [
+    {
+      name: 'Learn Vue Cli',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      planedCompletionDate: '11/19/2019'
+    },
+
+    {
+      name: 'Some task',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      planedCompletionDate: '11/22/2019'
+    },
+  ];
 
   changeNotificationCount(number: number): void {
     this.notificationCount = number
   }
 
-  changeOpenTaskCount(taskCount: number): void {
-      this.openTaskCount = taskCount;
+  addTask(task: TaskInterface): void {
+    this.tasks.push(task);
   }
 
-  changeCompletedTaskCount(): void {
-      this.completedTaskCount++;
+  deleteTask(index: number): void {
+    this.tasks.splice(index, 1);
+    this.completedTaskCount++;
   }
 }
 </script>

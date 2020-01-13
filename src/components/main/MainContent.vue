@@ -2,15 +2,16 @@
   .content-wrap
     keep-alive
       router-view(
+        :tasks="tasks"
         @activityImgClick="$emit('activityImgClick', $event)"
-        @changeTaskCount="$emit('changeTaskCount', $event)"
-        @deleteTask="$emit('deleteTask')"
+        @addTask="$emit('addTask', $event)"
+        @deleteTask="$emit('deleteTask', $event)"
       )
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import {Vue, Component, Prop} from 'vue-property-decorator'
+import {TaskInterface} from "@/types/TaskInterface";
 
 @Component(
   {
@@ -18,7 +19,9 @@ import Component from 'vue-class-component'
   }
 )
 
-export default class MainContent extends Vue {}
+export default class MainContent extends Vue {
+  @Prop({type: Array}) tasks!: TaskInterface[];
+}
 </script>
 
 <style scoped lang="scss">

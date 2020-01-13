@@ -48,8 +48,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import {Vue, Component, Prop} from 'vue-property-decorator'
 import {TaskInterface} from "@/types/TaskInterface";
 import {InputErrorInterface} from "@/types/InputErrorInterface";
 
@@ -60,49 +59,35 @@ import {InputErrorInterface} from "@/types/InputErrorInterface";
 )
 
 export default class TaskBlock extends Vue {
+  @Prop({type: Array}) tasks!: TaskInterface[];
+
   scaleTasks: boolean = false;
   newTaskName: string = '';
   newTaskDescription: string = '';
   errors: InputErrorInterface[] = [];
-  tasks: TaskInterface[] = [];
-
-  created(): void {
-    this.tasks = [
-      {
-        name: 'Learn Vue Cli',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-        planedCompletionDate: '11/19/2019'
-      },
-
-      {
-        name: 'Some task',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-        planedCompletionDate: '11/22/2019'
-      },
-    ];
-  }
 
   mounted(): void {
     this.scaleTasks = true;
-    this.$emit('changeTaskCount', this.tasks.length);
   }
 
   addTask(): void {
     if (this.newTaskName && this.newTaskDescription) {
-      this.tasks.push({
-        name: this.newTaskName,
-        description: this.newTaskDescription,
-        planedCompletionDate: this.getDate()
-      });
+      this.$emit(
+        'addTask',
+        {
+          name: this.newTaskName,
+          description: this.newTaskDescription,
+          planedCompletionDate: this.getDate()
+        }
+      );
 
       this.newTaskName = '';
       this.newTaskDescription = '';
       this.errors = [];
-      this.$emit('changeTaskCount', this.tasks.length);
       return;
     }
 
-    //add errors if 'required' delete in HTML
+    //add errors
     this.errors = [];
 
     if (!this.newTaskName) {
@@ -127,9 +112,7 @@ export default class TaskBlock extends Vue {
   }
 
   deleteTask(index: number): void {
-    this.tasks.splice(index, 1);
-    this.$emit('changeTaskCount', this.tasks.length);
-    this.$emit('deleteTask');
+    this.$emit('deleteTask', index);
   }
 
   //using js because transition-group don't correct work with css animation-iteration-count (blink only 1 iteration)
