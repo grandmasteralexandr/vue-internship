@@ -21,7 +21,7 @@ import Component from 'vue-class-component'
 import MainSidebar from '../main/MainSidebar.vue'
 import MainHeader from '../main/MainHeader.vue'
 import MainContent from '../main/MainContent.vue'
-import {TaskInterface} from "@/types/TaskInterface";
+import {Status, TaskInterface} from "@/types/TaskInterface";
 
 @Component(
   {
@@ -41,12 +41,14 @@ export default class LayoutDefault extends Vue {
     {
       name: 'Learn Vue Cli',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      status: Status.ToDo,
       planedCompletionDate: '11/19/2019'
     },
 
     {
       name: 'Some task',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
+      status: Status.InProgress,
       planedCompletionDate: '11/22/2019'
     },
   ];

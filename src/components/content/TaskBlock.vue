@@ -28,6 +28,9 @@
         :class="{'input-error': errors.find(item => item.input === 'description') }"
         required
       )
+      label.label Status:
+      select.select(v-model="newTaskStatus")
+        option(v-for="status in statusEnum") {{status}}
       button.add-button Add Task
 
     transition(name="tasks-block")
@@ -43,13 +46,17 @@
             .task-content
               .task-name {{task.name}}
               .task-description {{task.description}}
+              .task-status Status:&nbsp
+                span(
+                  :class="getStatusClass(task.status)"
+                ) {{task.status}}
               .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
             button.delete-button(@click="deleteTask(index)") Delete
 </template>
 
 <script lang="ts">
 import {Vue, Component, Prop} from 'vue-property-decorator'
-import {TaskInterface} from "@/types/TaskInterface";
+import {TaskInterface, Status} from "@/types/TaskInterface";
 import {InputErrorInterface} from "@/types/InputErrorInterface";
 
 @Component(
@@ -64,6 +71,8 @@ export default class TaskBlock extends Vue {
   scaleTasks: boolean = false;
   newTaskName: string = '';
   newTaskDescription: string = '';
+  newTaskStatus: Status = Status.ToDo;
+  statusEnum: Object = Status;
   errors: InputErrorInterface[] = [];
 
   mounted(): void {
@@ -77,12 +86,14 @@ export default class TaskBlock extends Vue {
         {
           name: this.newTaskName,
           description: this.newTaskDescription,
+          status: this.newTaskStatus,
           planedCompletionDate: this.getDate()
         }
       );
 
       this.newTaskName = '';
       this.newTaskDescription = '';
+      this.newTaskStatus = Status.ToDo;
       this.errors = [];
       return;
     }
@@ -130,6 +141,18 @@ export default class TaskBlock extends Vue {
       }
     )
   }
+
+  getStatusClass(status: Status): string {
+    if (status == Status.ToDo) {
+      return 'status-to-do'
+    }
+
+    if (status == Status.InProgress) {
+      return 'status-in-progress'
+    }
+
+    return 'status-done'
+  }
 }
 </script>
 
@@ -147,13 +170,19 @@ export default class TaskBlock extends Vue {
     width: 240px;
   }
 
+  .select {
+    height: 30px;
+    background-color: transparent;
+    margin-bottom: 10px;
+  }
+
   .add-button {
     @include button(#77bd8e);
     color: $content-font-color;
     margin-top: 8px;
   }
 
-  .task-description, .task-planed-completion-date {
+  .task-description, .task-status, .task-planed-completion-date {
     padding-top: 15px;
   }
 
@@ -180,7 +209,19 @@ export default class TaskBlock extends Vue {
     font-size: 18px;
   }
 
-  .task-planed-completion-date {
+  .status-to-do {
+    color: green;
+  }
+
+  .status-in-progress {
+    color: chocolate;
+  }
+
+  .status-done {
+    color: blue;
+  }
+
+  .task-status, .task-planed-completion-date {
     font-size: 14px;
     color: rgba($content-font-color, 0.7);
   }
