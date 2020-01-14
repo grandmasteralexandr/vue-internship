@@ -8,6 +8,8 @@
             :key="status"
           ) {{status}}
       tbody
+        tr(v-if="tasks.length === 0")
+          td(colspan="3" align="center") No task available
         tr(
           v-for="(row, rowIndex) in getSortedTaskByStatus()"
           :key="rowIndex"
