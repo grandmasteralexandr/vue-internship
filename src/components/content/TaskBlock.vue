@@ -30,7 +30,7 @@
       )
       label.label Status:
       select.select(v-model="newTaskStatus")
-        option(v-for="status in statusEnum") {{status}}
+        option(v-for="status in statusEnum" :key="status") {{status}}
       button.add-button Add Task
 
     transition(name="tasks-block")

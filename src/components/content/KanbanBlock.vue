@@ -5,6 +5,7 @@
         tr
           th(
             v-for="status in statusEnum"
+            :key="status"
           ) {{status}}
       tbody
         tr(
