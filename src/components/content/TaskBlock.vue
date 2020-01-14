@@ -128,6 +128,7 @@ export default class TaskBlock extends Vue {
 
   //using js because transition-group don't correct work with css animation-iteration-count (blink only 1 iteration)
   blinks(element: Element): void {
+    element.scrollIntoView();
     element.animate(
       //keyframes
       {
