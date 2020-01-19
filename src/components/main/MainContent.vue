@@ -5,6 +5,7 @@
         :tasks="tasks"
         @activityImgClick="$emit('activityImgClick', $event)"
         @addTask="$emit('addTask', $event)"
+        @editTask="$emit('editTask', $event)"
         @deleteTask="$emit('deleteTask', $event)"
       )
 </template>

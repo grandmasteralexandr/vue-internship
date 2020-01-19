@@ -11,6 +11,7 @@
         :tasks="tasks"
         @activityImgClick="changeNotificationCount($event)"
         @addTask="addTask($event)"
+        @editTask="editTask($event)"
         @deleteTask="deleteTask($event)"
       )
 </template>
@@ -39,6 +40,7 @@ export default class LayoutDefault extends Vue {
   completedTaskCount: number = 372;
   tasks: TaskInterface[] = [
     {
+      id: 0,
       name: 'Learn Vue Cli',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
       status: Status.ToDo,
@@ -46,6 +48,7 @@ export default class LayoutDefault extends Vue {
     },
 
     {
+      id: 1,
       name: 'Some task',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
       status: Status.InProgress,
@@ -59,6 +62,10 @@ export default class LayoutDefault extends Vue {
 
   addTask(task: TaskInterface): void {
     this.tasks.push(task);
+  }
+
+  editTask(task: TaskInterface): void {
+    this.$set(this.tasks, task.id, task);
   }
 
   deleteTask(index: number): void {

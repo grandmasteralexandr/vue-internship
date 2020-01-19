@@ -1,37 +1,6 @@
-<template lang="pug">
+<template lang="pug" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   .content-container
-    form.add-task-form(@submit.prevent="addTask" novalidate)
-      .errors-block(
-        v-if="errors.length"
-      )
-        p Please, fix this error(s):
-        ul
-          li(
-            v-for="(error, index) in errors"
-            :key="index"
-          )
-            | {{ error.text }}
-
-      label.label(for="name") Name:
-      input.input#name(
-        type="text"
-        placeholder="Some name"
-        v-model="newTaskName"
-        :class="{'input-error': errors.find(item => item.input === 'name') }"
-        required
-      )
-      label.label(for="description") Description:
-      input.input#description(
-        type="text"
-        placeholder="Some description"
-        v-model="newTaskDescription"
-        :class="{'input-error': errors.find(item => item.input === 'description') }"
-        required
-      )
-      label.label Status:
-      select.select(v-model="newTaskStatus")
-        option(v-for="status in statusEnum" :key="status") {{status}}
-      button.add-button Add Task
+    button.add-button(@click="showModal = true") Add Task
 
     transition(name="tasks-block")
       div(v-if="scaleTasks")
@@ -43,7 +12,7 @@
             v-for="(task, index) in tasks"
             :key="task.name"
           )
-            .task-content
+            .task-content(@click="showDetails(task)")
               .task-name {{task.name}}
               .task-description {{task.description}}
               .task-status Status:&nbsp
@@ -52,16 +21,36 @@
                 ) {{task.status}}
               .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
             button.delete-button(@click="deleteTask(index)") Delete
+
+    ModalWindow(
+      v-if="showModal"
+    )
+      template(v-slot:body)
+        component(
+          :is="modalComponent"
+          :task="currentTask"
+          :taskCount="tasks.length"
+          @addTask="$emit('addTask', $event)"
+          @editTask="$emit('editTask', $event)"
+          @close="showModal = false"
+        )
 </template>
 
 <script lang="ts">
 import {Vue, Component, Prop} from 'vue-property-decorator'
 import {TaskInterface, Status} from "@/types/TaskInterface";
-import {InputErrorInterface} from "@/types/InputErrorInterface";
+import ModalWindow from "@/components/modal/ModalWindow.vue"
+import TaskCreateForm from "@/components/form/TaskCreateForm.vue";
+import TaskDetails from "@/components/form/TaskDetails.vue";
 
 @Component(
   {
     name: "TaskBlock",
+    components: {
+      ModalWindow,
+      TaskCreateForm,
+      TaskDetails,
+    }
   }
 )
 
@@ -69,57 +58,18 @@ export default class TaskBlock extends Vue {
   @Prop({type: Array}) tasks!: TaskInterface[];
 
   scaleTasks: boolean = false;
-  newTaskName: string = '';
-  newTaskDescription: string = '';
-  newTaskStatus: Status = Status.ToDo;
-  statusEnum: Object = Status;
-  errors: InputErrorInterface[] = [];
+  showModal: boolean = false;
+  modalComponent: string = 'TaskCreateForm';
+  currentTask: TaskInterface | null = null;
 
   mounted(): void {
     this.scaleTasks = true;
   }
 
-  addTask(): void {
-    if (this.newTaskName && this.newTaskDescription) {
-      this.$emit(
-        'addTask',
-        {
-          name: this.newTaskName,
-          description: this.newTaskDescription,
-          status: this.newTaskStatus,
-          planedCompletionDate: this.getDate()
-        }
-      );
-
-      this.newTaskName = '';
-      this.newTaskDescription = '';
-      this.newTaskStatus = Status.ToDo;
-      this.errors = [];
-      return;
-    }
-
-    //add errors
-    this.errors = [];
-
-    if (!this.newTaskName) {
-      this.errors.push({
-        input: 'name',
-        text: 'Name cannot be blank'
-      })
-    }
-
-    if (!this.newTaskDescription) {
-      this.errors.push({
-        input: 'description',
-        text: 'Description cannot be blank'
-      })
-    }
-  }
-
-  getDate(): string {
-    // week in milliseconds
-    const increaseTime: number = 604800000;
-    return new Date(Date.now() + increaseTime).toLocaleDateString('en-US');
+  showDetails(task: TaskInterface): void {
+    this.modalComponent = 'TaskDetails';
+    this.currentTask = task;
+    this.showModal = true;
   }
 
   deleteTask(index: number): void {
@@ -158,25 +108,6 @@ export default class TaskBlock extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .add-task-form {
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
-  }
-
-  .input {
-    margin-bottom: 10px;
-    padding: 5px 0;
-    width: 240px;
-  }
-
-  .select {
-    height: 30px;
-    background-color: transparent;
-    margin-bottom: 10px;
-  }
-
   .add-button {
     @include button(#77bd8e);
     color: $content-font-color;
@@ -196,6 +127,7 @@ export default class TaskBlock extends Vue {
   .task-content {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
   }
 
   .delete-button {
@@ -225,14 +157,6 @@ export default class TaskBlock extends Vue {
   .task-status, .task-planed-completion-date {
     font-size: 14px;
     color: rgba($content-font-color, 0.7);
-  }
-
-  .errors-block {
-    color: $error-color;
-  }
-
-  .input-error {
-    border-color: $error-color;
   }
 
   .tasks-block-enter-active {
