@@ -1,6 +1,6 @@
 <template lang="pug" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   .content-container
-    button.add-button(@click="showModal = true") Add Task
+    button.add-button(@click="showTaskCreateForm") Add Task
 
     transition(name="tasks-block")
       div(v-if="scaleTasks")
@@ -9,10 +9,10 @@
           @enter="blinks"
         )
           .task-item(
-            v-for="(task, index) in tasks"
-            :key="task.name"
+            v-for="task in tasks"
+            :key="task.id"
           )
-            .task-content(@click="showDetails(task)")
+            .task-content(@click="showTaskDetails(task)")
               .task-name {{task.name}}
               .task-description {{task.description}}
               .task-status Status:&nbsp
@@ -20,16 +20,17 @@
                   :class="getStatusClass(task.status)"
                 ) {{task.status}}
               .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
-            button.delete-button(@click="deleteTask(index)") Delete
+            button.delete-button(@click="deleteTask(task)") Delete
 
     ModalWindow(
       v-if="showModal"
+      @close="showModal = false"
     )
       template(v-slot:body)
         component(
           :is="modalComponent"
           :task="currentTask"
-          :taskCount="tasks.length"
+          :taskLastId="tasks.length > 0 ? tasks[tasks.length - 1].id : 0"
           @addTask="$emit('addTask', $event)"
           @editTask="$emit('editTask', $event)"
           @close="showModal = false"
@@ -66,7 +67,12 @@ export default class TaskBlock extends Vue {
     this.scaleTasks = true;
   }
 
-  showDetails(task: TaskInterface): void {
+  showTaskCreateForm(): void {
+    this.modalComponent = 'TaskCreateForm';
+    this.showModal = true;
+  }
+
+  showTaskDetails(task: TaskInterface): void {
     this.modalComponent = 'TaskDetails';
     this.currentTask = task;
     this.showModal = true;
@@ -112,6 +118,8 @@ export default class TaskBlock extends Vue {
     @include button(#77bd8e);
     color: $content-font-color;
     margin-top: 8px;
+    width: 200px;
+    align-self: center;
   }
 
   .task-description, .task-status, .task-planed-completion-date {

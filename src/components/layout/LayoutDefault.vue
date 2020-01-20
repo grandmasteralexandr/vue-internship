@@ -65,10 +65,21 @@ export default class LayoutDefault extends Vue {
   }
 
   editTask(task: TaskInterface): void {
-    this.$set(this.tasks, task.id, task);
+    let index: number = -1;
+
+    // find task index in array
+    for (let i = 0; i < this.tasks.length; i++) {
+      if (task.id == this.tasks[i].id) {
+        index = i;
+        break;
+      }
+    }
+
+    this.$set(this.tasks, index, task);
   }
 
-  deleteTask(index: number): void {
+  deleteTask(task: TaskInterface): void {
+    const index: number = this.tasks.indexOf(task, 0);
     this.tasks.splice(index, 1);
     this.completedTaskCount++;
   }
@@ -117,6 +128,38 @@ export default class LayoutDefault extends Vue {
     padding: 35px 30px;
     margin-top: 30px;
     border-radius: 8px;
+  }
+
+  .input, .textarea {
+    margin-bottom: 10px;
+    padding: 5px 0;
+    width: 240px;
+  }
+
+  .select {
+    height: 30px;
+    background-color: transparent;
+    margin-bottom: 10px;
+  }
+
+  .add-button {
+    @include button(#77bd8e);
+    color: $content-font-color;
+    margin-top: 8px;
+  }
+
+  .errors-block {
+    color: $error-color;
+  }
+
+  .input-error {
+    border-color: $error-color;
+  }
+
+  .cancel-button {
+    @include button(#cac6c6);
+    color: $content-font-color;
+    margin-top: 8px;
   }
 
   @media screen and (max-width: 1023px) {

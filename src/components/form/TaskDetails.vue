@@ -1,5 +1,5 @@
 <template lang="pug">
-  form.add-task-form(@submit.prevent="addTask" novalidate)
+  form.add-task-form(@submit.prevent="editTask" novalidate)
     .errors-block(
     v-if="errors.length"
     )
@@ -11,34 +11,49 @@
         )
           | {{ error.text }}
 
-    label.label(for="name") Name:
-    input.input#name(
-    type="text"
-    placeholder="Some name"
-    v-model="taskName"
-    :class="{'input-error': errors.find(item => item.input === 'name') }"
-    required
-    )
-    label.label(for="description") Description:
-    input.input#description(
-    type="text"
-    placeholder="Some description"
-    v-model="taskDescription"
-    :class="{'input-error': errors.find(item => item.input === 'description') }"
-    required
-    )
-    label.label Status:
-    select.select(v-model="taskStatus")
-      option(v-for="status in statusEnum" :key="status") {{status}}
+    template(v-if="isInput")
+      label.label(for="name") Name:
+      input.input#name(
+      type="text"
+      placeholder="Some name"
+      v-model="taskName"
+      :class="{'input-error': errors.find(item => item.input === 'name') }"
+      required
+      @input="isChanged = true"
+      )
+    .task-name(v-else) {{taskName}}
 
-    .button-block
-      button.add-button(@click="editTask") Save
-      button.cancel-button(@click="$emit('close')") Cancel
+    template(v-if="isInput")
+      label.label(for="description") Description:
+      textarea.textarea#description(
+      placeholder="Some description"
+      v-model="taskDescription"
+      :class="{'input-error': errors.find(item => item.input === 'description') }"
+      required
+      @input="isChanged = true"
+      )
+    .task-description(v-else) {{taskDescription}}
+
+    template(v-if="isInput")
+      label.label Status:
+      select.select(v-model="taskStatus" @change="isChanged = true")
+        option(v-for="status in statusEnum" :key="status" :disabled="!isAllowedStatus(status)") {{status}}
+    .task-status(v-else) Status:&nbsp
+      span(
+      :class="getStatusClass(task.status)"
+      ) {{task.status}}
+
+    .task-planed-completion-date(v-if="!isInput") Planned completion date: {{task.planedCompletionDate}}
+
+    .button-block(:class="{'one-button': !isChanged}")
+      button.add-button(v-if="isChanged" type="submit") Save
+      button.edit-button(v-if="!isInput" type="button" @click.prevent="isInput = true") Edit
+      button.cancel-button(v-if="isInput" type="button" @click.prevent="$emit('close')") Cancel
 </template>
 
 <script lang="ts">
-import {Vue, Component, Prop} from 'vue-property-decorator'
-import {TaskInterface, Status} from "@/types/TaskInterface";
+import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Status, TaskInterface} from "@/types/TaskInterface";
 import {InputErrorInterface} from "@/types/InputErrorInterface";
 
 @Component(
@@ -54,6 +69,8 @@ export default class TaskDetails extends Vue {
   taskStatus: Status = this.task.status;
   statusEnum: Object = Status;
   errors: InputErrorInterface[] = [];
+  isInput: boolean = false;
+  isChanged: boolean = false;
 
   editTask(): void {
     if (this.taskName && this.taskDescription) {
@@ -89,6 +106,22 @@ export default class TaskDetails extends Vue {
       })
     }
   }
+
+  isAllowedStatus(status: Status): boolean {
+    return !(this.task.status == Status.Done && status == Status.ToDo);
+  }
+
+  getStatusClass(status: Status): string {
+    if (status == Status.ToDo) {
+      return 'status-to-do'
+    }
+
+    if (status == Status.InProgress) {
+      return 'status-in-progress'
+    }
+
+    return 'status-done'
+  }
 }
 </script>
 
@@ -100,35 +133,53 @@ export default class TaskDetails extends Vue {
     max-width: 300px;
   }
 
-  .input {
-    margin-bottom: 10px;
-    padding: 5px 0;
-    width: 240px;
+  .textarea {
+    resize: none;
+    height: 250px;
   }
 
-  .select {
-    height: 30px;
-    background-color: transparent;
-    margin-bottom: 10px;
+  .button-block {
+    display: flex;
+    justify-content: space-between;
   }
 
-  .add-button {
-    @include button(#77bd8e);
-    color: $content-font-color;
+  .one-button {
+    justify-content: flex-end;
+  }
+
+  .edit-button {
+    @include button(#00a3e3);
+    color: white;
     margin-top: 8px;
   }
 
-  .errors-block {
-    color: $error-color;
+  .task-description, .task-status, .task-planed-completion-date {
+    padding-top: 15px;
   }
 
-  .input-error {
-    border-color: $error-color;
+  .task-name {
+    font-weight: bold;
+    font-size: 18px;
   }
 
-  .cancel-button {
-    @include button(#cac6c6);
-    color: $content-font-color;
-    margin-top: 8px;
+  .status-to-do {
+    color: green;
+  }
+
+  .status-in-progress {
+    color: chocolate;
+  }
+
+  .status-done {
+    color: blue;
+  }
+
+  .task-status, .task-planed-completion-date {
+    font-size: 14px;
+    color: rgba($content-font-color, 0.7);
+  }
+
+  .task-planed-completion-date {
+    margin-bottom: 10px;
   }
 </style>

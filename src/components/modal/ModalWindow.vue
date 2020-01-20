@@ -1,16 +1,15 @@
 <template lang="pug">
-  .modal-backdrop
-    .modal-wraper
-      .modal-container
+  .modal-backdrop(@click.self="$emit('close')")
+    .modal-container
 
-        .modal-header
-          slot(name="header")
+      .modal-header
+        slot(name="header")
 
-        .modal-body
-          slot(name="body")
+      .modal-body
+        slot(name="body")
 
-        .modal-footer
-          slot(name="footer")
+      .modal-footer
+        slot(name="footer")
 </template>
 
 <script lang="ts">
@@ -37,10 +36,6 @@ export default class ModalWindow extends Vue {
     height: 100%;
     z-index: 9998;
     background-color: rgba($content-font-color, 0.5);
-  }
-
-  .modal-wraper {
-    height: 100%;
     @extend %flex-center;
   }
 

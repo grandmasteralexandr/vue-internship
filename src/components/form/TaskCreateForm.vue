@@ -20,8 +20,7 @@
     required
     )
     label.label(for="description") Description:
-    input.input#description(
-    type="text"
+    textarea.textarea#description(
     placeholder="Some description"
     v-model="newTaskDescription"
     :class="{'input-error': errors.find(item => item.input === 'description') }"
@@ -32,8 +31,8 @@
       option(v-for="status in statusEnum" :key="status") {{status}}
 
     .button-block
-      button.add-button(@click="addTask") Add Task
-      button.cancel-button(@click="$emit('close')") Cancel
+      button.add-button(type="submit") Add Task
+      button.cancel-button(type="button" @click="$emit('close')") Cancel
 </template>
 
 <script lang="ts">
@@ -47,7 +46,7 @@ import {InputErrorInterface} from "@/types/InputErrorInterface";
   }
 )
 export default class TaskCreateForm extends Vue {
-  @Prop({type: Number, default: 0}) taskCount!: number;
+  @Prop({type: Number, default: 0}) taskLastId!: number;
 
   newTaskName: string = '';
   newTaskDescription: string = '';
@@ -60,7 +59,7 @@ export default class TaskCreateForm extends Vue {
       this.$emit(
         'addTask',
         {
-          id: this.taskCount,
+          id: this.taskLastId + 1,
           name: this.newTaskName,
           description: this.newTaskDescription,
           status: this.newTaskStatus,
@@ -111,35 +110,13 @@ export default class TaskCreateForm extends Vue {
     max-width: 300px;
   }
 
-  .input {
-    margin-bottom: 10px;
-    padding: 5px 0;
-    width: 240px;
+  .textarea {
+    resize: none;
+    height: 250px;
   }
 
-  .select {
-    height: 30px;
-    background-color: transparent;
-    margin-bottom: 10px;
-  }
-
-  .add-button {
-    @include button(#77bd8e);
-    color: $content-font-color;
-    margin-top: 8px;
-  }
-
-  .errors-block {
-    color: $error-color;
-  }
-
-  .input-error {
-    border-color: $error-color;
-  }
-
-  .cancel-button {
-    @include button(#cac6c6);
-    color: $content-font-color;
-    margin-top: 8px;
+  .button-block {
+    display: flex;
+    justify-content: space-between;
   }
 </style>
