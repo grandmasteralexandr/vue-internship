@@ -139,7 +139,7 @@ export default class TaskDetails extends Vue {
 
   .textarea {
     resize: none;
-    height: 250px;
+    height: 200px;
   }
 
   .button-block {

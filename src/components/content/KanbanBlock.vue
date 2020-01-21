@@ -4,8 +4,10 @@
       .status-col(
         v-for="status in statusEnum"
         :key="status"
+        :class="{'drag-enter': status === droppedColName}"
         @dragover="onDragOver($event, status)"
-        @drop.prevent="onDrop(status)"
+        @dragleave="droppedColName = ''"
+        @drop="onDrop(status)"
       )
         .status-col-head {{status}}
         .status-col-body
@@ -51,6 +53,7 @@ export default class KanbanBlock extends Vue {
 
   statusEnum: Object = Status;
   showModal: boolean = false;
+  droppedColName: string = '';
   currentTask: TaskInterface | null = null;
 
   get toDoTasks(): TaskInterface[] {
@@ -94,15 +97,26 @@ export default class KanbanBlock extends Vue {
   }
 
   onDragOver($event: DragEvent, newStatus: Status): void {
-    if (this.currentTask == null || this.currentTask.status == Status.Done && newStatus == Status.ToDo) {
+    if (
+      this.currentTask == null ||
+      this.currentTask.status == Status.Done && newStatus == Status.ToDo ||
+      this.currentTask.status == newStatus
+    ) {
       return;
     }
 
+    this.droppedColName = newStatus;
     $event.preventDefault();
   }
 
   onDrop(newStatus: Status): void {
-    if (this.currentTask == null || this.currentTask.status == Status.Done && newStatus == Status.ToDo) {
+    this.droppedColName = '';
+
+    if (
+      this.currentTask == null ||
+      this.currentTask.status == Status.Done && newStatus == Status.ToDo ||
+      this.currentTask.status == newStatus
+    ) {
       return;
     }
 
@@ -132,6 +146,10 @@ export default class KanbanBlock extends Vue {
     background-color: #ebecf0;
     margin: 0 5px;
     border-radius: 5px;
+
+    &.drag-enter {
+      background-color: #adadaf;
+    }
   }
 
   .status-col-head {

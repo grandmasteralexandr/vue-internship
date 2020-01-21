@@ -112,7 +112,7 @@ export default class TaskCreateForm extends Vue {
 
   .textarea {
     resize: none;
-    height: 250px;
+    height: 200px;
   }
 
   .button-block {
