@@ -37,7 +37,11 @@
     template(v-if="isInput")
       label.label Status:
       select.select(v-model="taskStatus" @change="isChanged = true")
-        option(v-for="status in statusEnum" :key="status" :disabled="!isAllowedStatus(status)") {{status}}
+        option(
+          v-for="status in statusEnum"
+          :key="status"
+          :disabled="!isAllowedStatus(status)"
+        ) {{status}}
     .task-status(v-else) Status:&nbsp
       span(
       :class="getStatusClass(task.status)"
@@ -108,7 +112,7 @@ export default class TaskDetails extends Vue {
   }
 
   isAllowedStatus(status: Status): boolean {
-    return !(this.task.status == Status.Done && status == Status.ToDo);
+    return !(status == Status.ToDo && this.task.status == Status.Done);
   }
 
   getStatusClass(status: Status): string {

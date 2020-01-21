@@ -30,7 +30,7 @@
         component(
           :is="modalComponent"
           :task="currentTask"
-          :taskLastId="tasks.length > 0 ? tasks[tasks.length - 1].id : 0"
+          :taskLastId="taskLastId"
           @addTask="$emit('addTask', $event)"
           @editTask="$emit('editTask', $event)"
           @close="showModal = false"
@@ -62,6 +62,10 @@ export default class TaskBlock extends Vue {
   showModal: boolean = false;
   modalComponent: string = 'TaskCreateForm';
   currentTask: TaskInterface | null = null;
+
+  get taskLastId(): number {
+    return this.tasks.length > 0 ? this.tasks[this.tasks.length - 1].id : 0;
+  }
 
   mounted(): void {
     this.scaleTasks = true;

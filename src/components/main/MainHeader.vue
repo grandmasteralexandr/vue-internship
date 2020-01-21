@@ -185,7 +185,7 @@ export default class MainHeader extends Vue {
           &.active {
             color: $content-font-color;
             border-bottom: 2px solid $gold-highlight;
-            padding-bottom: 17px;
+            padding-bottom: 15px;
           }
         }
       }

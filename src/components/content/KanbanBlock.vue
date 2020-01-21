@@ -1,81 +1,161 @@
 <template lang="pug">
   .content-container
-    table.table
-      thead
-        tr
-          th(
-            v-for="status in statusEnum"
-            :key="status"
-          ) {{status}}
-      tbody
-        tr(v-if="tasks.length === 0")
-          td(colspan="3" align="center") No task available
-        tr(
-          v-for="(row, rowIndex) in getSortedTaskByStatus()"
-          :key="rowIndex"
-        )
-          td(
-            v-for="(task, colIndex) in row"
-            :key="colIndex"
+    .status-table
+      .status-col(
+        v-for="status in statusEnum"
+        :key="status"
+        @dragenter.prevent
+        @dragover.prevent
+        @drop.prevent="onDrop($event, status)"
+      )
+        .status-col-head {{status}}
+        .status-col-body
+          .task-card(
+            v-for="task in getTasksByStatus(status)"
+            :key="task.id"
+            @click="showTaskDetails(task)"
+            draggable="true"
+            @dragstart="dragStart($event, task)"
           )
-            .task-card(
-              v-if="task"
-            )
-              .task-name {{task.name}}
-              .task-planed-completion-date Due date: {{task.planedCompletionDate}}
+            .task-name {{task.name}}
+            .task-planed-completion-date Due date: {{task.planedCompletionDate}}
+
+    ModalWindow(
+      v-if="showModal"
+      @close="showModal = false"
+    )
+      template(v-slot:body)
+        TaskDetails(
+          :task="currentTask"
+          @editTask="$emit('editTask', $event)"
+          @close="showModal = false"
+        )
 </template>
 
 <script lang="ts">
-import {Vue, Component, Prop} from 'vue-property-decorator'
-import {TaskInterface, Status} from "@/types/TaskInterface";
+import {Component, Prop, Vue} from 'vue-property-decorator';
+import {Status, TaskInterface} from "@/types/TaskInterface";
+import ModalWindow from "@/components/modal/ModalWindow.vue";
+import TaskDetails from "@/components/form/TaskDetails.vue";
 
 @Component(
   {
-    name: "KanbanBlock"
+    name: "KanbanBlock",
+    components: {
+      ModalWindow,
+      TaskDetails,
+    }
   }
 )
 export default class KanbanBlock extends Vue {
   @Prop({type: Array}) tasks!: TaskInterface[];
 
   statusEnum: Object = Status;
+  showModal: boolean = false;
+  currentTask: TaskInterface | null = null;
 
-  getSortedTaskByStatus(): Array<Array<TaskInterface | null>> {
-    const toDoTasks: TaskInterface[] = this.tasks.filter((task: TaskInterface) => {
+  get toDoTasks(): TaskInterface[] {
+    return this.tasks.filter((task: TaskInterface) => {
       return task.status == Status.ToDo;
     });
+  }
 
-    const inProgressTasks: TaskInterface[] = this.tasks.filter((task: TaskInterface) => {
+  get inProgressTasks(): TaskInterface[] {
+    return this.tasks.filter((task: TaskInterface) => {
       return task.status == Status.InProgress;
     });
+  }
 
-    const doneTasks: TaskInterface[] = this.tasks.filter((task: TaskInterface) => {
+  get doneTasks(): TaskInterface[] {
+    return this.tasks.filter((task: TaskInterface) => {
       return task.status == Status.Done;
     });
+  }
 
-    const rowCount: number = Math.max(toDoTasks.length, inProgressTasks.length, doneTasks.length);
-
-    let result: Array<Array<TaskInterface | null>> = [];
-
-    for (let i = 0; i < rowCount; i++) {
-      result.push([
-        toDoTasks[i] ? toDoTasks[i] : null,
-        inProgressTasks[i] ? inProgressTasks[i] : null,
-        doneTasks[i] ? doneTasks[i] : null,
-      ]);
+  getTasksByStatus(status: Status): TaskInterface[] {
+    if (status == Status.ToDo) {
+      return this.toDoTasks;
     }
 
-    return result;
+    if (status == Status.InProgress) {
+      return this.inProgressTasks;
+    }
+
+    return this.doneTasks;
+  }
+
+  showTaskDetails(task: TaskInterface): void {
+    this.currentTask = task;
+    this.showModal = true;
+  }
+
+  dragStart($event: any, task: TaskInterface): void {
+    $event.dataTransfer.effectAllowed = 'move';
+    $event.dataTransfer.setData('task', JSON.stringify(task));
+  }
+
+  onDrop($event: any, newStatus: Status): void {
+    const task: TaskInterface = JSON.parse($event.dataTransfer.getData('task'));
+
+    if (task.status == Status.Done && newStatus == Status.ToDo) {
+      return;
+    }
+
+    this.$emit(
+      'editTask',
+      {
+        id: task.id,
+        name: task.name,
+        description: task.description,
+        status: newStatus,
+        planedCompletionDate: task.planedCompletionDate,
+      }
+    );
   }
 }
 </script>
 
 <style scoped lang="scss">
-  .table {
-    border-collapse: collapse;
+  .status-table {
+    display: flex;
+  }
 
-    th, td {
-      border: $content-font-color 1px solid;
-      padding: 5px;
+  .status-col {
+    display: flex;
+    flex-direction: column;
+    width: 33.33%;
+    background-color: #ebecf0;
+    margin: 0 5px;
+    border-radius: 5px;
+  }
+
+  .status-col-head {
+    font-size: 18px;
+    font-weight: bold;
+    align-self: center;
+    margin: 10px;
+  }
+
+  .status-col-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+
+  .task-card {
+    cursor: pointer;
+    margin: 5px 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+
+    &:first-child {
+      margin-top: 10px;
+    }
+
+    &:last-child {
+      margin-bottom: 10px;
     }
   }
 
