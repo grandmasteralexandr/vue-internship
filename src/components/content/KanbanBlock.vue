@@ -4,9 +4,8 @@
       .status-col(
         v-for="status in statusEnum"
         :key="status"
-        @dragenter.prevent
-        @dragover.prevent
-        @drop.prevent="onDrop($event, status)"
+        @dragover="onDragOver($event, status)"
+        @drop.prevent="onDrop(status)"
       )
         .status-col-head {{status}}
         .status-col-body
@@ -91,24 +90,30 @@ export default class KanbanBlock extends Vue {
 
   dragStart($event: any, task: TaskInterface): void {
     $event.dataTransfer.effectAllowed = 'move';
-    $event.dataTransfer.setData('task', JSON.stringify(task));
+    this.currentTask = task;
   }
 
-  onDrop($event: any, newStatus: Status): void {
-    const task: TaskInterface = JSON.parse($event.dataTransfer.getData('task'));
+  onDragOver($event: DragEvent, newStatus: Status): void {
+    if (this.currentTask == null || this.currentTask.status == Status.Done && newStatus == Status.ToDo) {
+      return;
+    }
 
-    if (task.status == Status.Done && newStatus == Status.ToDo) {
+    $event.preventDefault();
+  }
+
+  onDrop(newStatus: Status): void {
+    if (this.currentTask == null || this.currentTask.status == Status.Done && newStatus == Status.ToDo) {
       return;
     }
 
     this.$emit(
       'editTask',
       {
-        id: task.id,
-        name: task.name,
-        description: task.description,
+        id: this.currentTask.id,
+        name: this.currentTask.name,
+        description: this.currentTask.description,
         status: newStatus,
-        planedCompletionDate: task.planedCompletionDate,
+        planedCompletionDate: this.currentTask.planedCompletionDate,
       }
     );
   }
