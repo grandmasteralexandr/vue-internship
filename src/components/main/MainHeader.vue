@@ -29,16 +29,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import {Component, Mixins} from 'vue-property-decorator'
+import CommonMixin from '@/components/mixin/CommonMixin'
 
 @Component(
   {
     name: "MainHeader",
   }
 )
-
-export default class MainHeader extends Vue {
+export default class MainHeader extends Mixins(CommonMixin) {
   projectName: string = 'Website Redesign';
 
   sharedAvatars: string[] = [
@@ -54,10 +53,6 @@ export default class MainHeader extends Vue {
     'Calendar',
     'Files',
   ];
-
-  getImgUrl(img: string): any {
-    return require('@/img/' + img)
-  }
 }
 </script>
 

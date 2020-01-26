@@ -13,22 +13,29 @@
 
     label.label(for="name") Name:
     input.input#name(
-    type="text"
-    placeholder="Some name"
-    v-model="newTaskName"
-    :class="{'input-error': errors.find(item => item.input === 'name') }"
-    required
+      type="text"
+      placeholder="Some name"
+      v-model="newTaskName"
+      :class="{'input-error': errors.find(item => item.input === 'name') }"
+      required
     )
     label.label(for="description") Description:
     textarea.textarea#description(
-    placeholder="Some description"
-    v-model="newTaskDescription"
-    :class="{'input-error': errors.find(item => item.input === 'description') }"
-    required
+      placeholder="Some description"
+      v-model="newTaskDescription"
+      :class="{'input-error': errors.find(item => item.input === 'description') }"
+      required
     )
     label.label Status:
     select.select(v-model="newTaskStatus")
       option(v-for="status in statusEnum" :key="status") {{status}}
+    label.label(for="due-date") Due date:
+    input.input#due-date(
+      type="date"
+      :class="{'input-error': errors.find(item => item.input === 'due-date') }"
+      v-model="newTaskDueDate"
+      required
+    )
 
     .button-block
       button.add-button(type="submit") Add Task
@@ -51,11 +58,12 @@ export default class TaskCreateForm extends Vue {
   newTaskName: string = '';
   newTaskDescription: string = '';
   newTaskStatus: Status = Status.ToDo;
+  newTaskDueDate: string = '';
   statusEnum: Object = Status;
   errors: InputErrorInterface[] = [];
 
   addTask(): void {
-    if (this.newTaskName && this.newTaskDescription) {
+    if (this.newTaskName && this.newTaskDescription && this.newTaskDueDate) {
       this.$emit(
         'addTask',
         {
@@ -63,13 +71,14 @@ export default class TaskCreateForm extends Vue {
           name: this.newTaskName,
           description: this.newTaskDescription,
           status: this.newTaskStatus,
-          planedCompletionDate: this.getDate()
+          dueDate: Date.parse(this.newTaskDueDate)
         }
       );
 
       this.newTaskName = '';
       this.newTaskDescription = '';
       this.newTaskStatus = Status.ToDo;
+      this.newTaskDueDate = '';
       this.errors = [];
       this.$emit('close');
       return;
@@ -91,13 +100,13 @@ export default class TaskCreateForm extends Vue {
         text: 'Description cannot be blank'
       })
     }
-  }
 
-
-  getDate(): string {
-    // week in milliseconds
-    const increaseTime: number = 604800000;
-    return new Date(Date.now() + increaseTime).toLocaleDateString('en-US');
+    if (!this.newTaskDueDate) {
+      this.errors.push({
+        input: 'due-date',
+        text: 'Due date cannot be blank'
+      })
+    }
   }
 }
 </script>

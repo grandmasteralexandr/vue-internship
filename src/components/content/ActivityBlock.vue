@@ -37,8 +37,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import {Component, Mixins} from 'vue-property-decorator'
+import CommonMixin from '@/components/mixin/CommonMixin'
 import {ActivityInterface} from "@/types/ActivityInterface";
 
 @Component(
@@ -47,7 +47,7 @@ import {ActivityInterface} from "@/types/ActivityInterface";
   }
 )
 
-export default class ActivityBlock extends Vue {
+export default class ActivityBlock extends Mixins(CommonMixin) {
   activities: ActivityInterface[] = [
     {
       activityDate: 'TODAY',
@@ -82,10 +82,6 @@ export default class ActivityBlock extends Vue {
       ]
     }
   ];
-
-  getImgUrl(img: string): any {
-    return require('@/img/' + img)
-  }
 }
 </script>
 

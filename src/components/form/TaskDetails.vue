@@ -6,31 +6,31 @@
       p Please, fix this error(s):
       ul
         li(
-        v-for="(error, index) in errors"
-        :key="index"
+          v-for="(error, index) in errors"
+          :key="index"
         )
           | {{ error.text }}
 
     template(v-if="isInput")
       label.label(for="name") Name:
       input.input#name(
-      type="text"
-      placeholder="Some name"
-      v-model="taskName"
-      :class="{'input-error': errors.find(item => item.input === 'name') }"
-      required
-      @input="isChanged = true"
+        type="text"
+        placeholder="Some name"
+        v-model="taskName"
+        :class="{'input-error': errors.find(item => item.input === 'name') }"
+        required
+        @input="isChanged = true"
       )
     .task-name(v-else) {{taskName}}
 
     template(v-if="isInput")
       label.label(for="description") Description:
       textarea.textarea#description(
-      placeholder="Some description"
-      v-model="taskDescription"
-      :class="{'input-error': errors.find(item => item.input === 'description') }"
-      required
-      @input="isChanged = true"
+        placeholder="Some description"
+        v-model="taskDescription"
+        :class="{'input-error': errors.find(item => item.input === 'description') }"
+        required
+        @input="isChanged = true"
       )
     .task-description(v-else) {{taskDescription}}
 
@@ -44,10 +44,19 @@
         ) {{status}}
     .task-status(v-else) Status:&nbsp
       span(
-      :class="getStatusClass(task.status)"
+        :class="getStatusClass(task.status)"
       ) {{task.status}}
 
-    .task-planed-completion-date(v-if="!isInput") Planned completion date: {{task.planedCompletionDate}}
+    template(v-if="isInput")
+      label.label(for="due-date") Due date:
+      input.input#due-date(
+        type="date"
+        :class="{'input-error': errors.find(item => item.input === 'due-date') }"
+        @input="isChanged = true"
+        required
+        v-model="taskDueDate"
+      )
+    .due-date(v-else) Due date: {{task.dueDate | dateFormat}}
 
     .button-block(:class="{'one-button': !isChanged}")
       button.add-button(v-if="isChanged" type="submit") Save
@@ -56,28 +65,31 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Prop, Mixins} from 'vue-property-decorator'
 import {Status, TaskInterface} from "@/types/TaskInterface";
 import {InputErrorInterface} from "@/types/InputErrorInterface";
+import TaskMixin from "@/components/mixin/TaskMixin"
+import * as moment from 'moment';
 
 @Component(
   {
     name: "TaskDetails",
   }
 )
-export default class TaskDetails extends Vue {
+export default class TaskDetails extends Mixins(TaskMixin) {
   @Prop({type: Object}) task!: TaskInterface;
 
   taskName: string = this.task.name;
   taskDescription: string = this.task.description;
   taskStatus: Status = this.task.status;
+  taskDueDate: string = moment(this.task.dueDate).format('YYYY-MM-DD');
   statusEnum: Object = Status;
   errors: InputErrorInterface[] = [];
   isInput: boolean = false;
   isChanged: boolean = false;
 
   editTask(): void {
-    if (this.taskName && this.taskDescription) {
+    if (this.taskName && this.taskDescription && this.taskDueDate) {
       this.$emit(
         'editTask',
         {
@@ -85,7 +97,7 @@ export default class TaskDetails extends Vue {
           name: this.taskName,
           description: this.taskDescription,
           status: this.taskStatus,
-          planedCompletionDate: this.task.planedCompletionDate
+          dueDate: Date.parse(this.taskDueDate)
         }
       );
 
@@ -109,22 +121,17 @@ export default class TaskDetails extends Vue {
         text: 'Description cannot be blank'
       })
     }
+
+    if (!this.taskDueDate) {
+      this.errors.push({
+        input: 'due-date',
+        text: 'Due date cannot be blank'
+      })
+    }
   }
 
   isAllowedStatus(status: Status): boolean {
     return !(status == Status.ToDo && this.task.status == Status.Done);
-  }
-
-  getStatusClass(status: Status): string {
-    if (status == Status.ToDo) {
-      return 'status-to-do'
-    }
-
-    if (status == Status.InProgress) {
-      return 'status-in-progress'
-    }
-
-    return 'status-done'
   }
 }
 </script>
@@ -157,7 +164,7 @@ export default class TaskDetails extends Vue {
     margin-top: 8px;
   }
 
-  .task-description, .task-status, .task-planed-completion-date {
+  .task-description, .task-status, .due-date {
     padding-top: 15px;
   }
 
@@ -178,12 +185,12 @@ export default class TaskDetails extends Vue {
     color: blue;
   }
 
-  .task-status, .task-planed-completion-date {
+  .task-status, .due-date {
     font-size: 14px;
     color: rgba($content-font-color, 0.7);
   }
 
-  .task-planed-completion-date {
+  .due-date {
     margin-bottom: 10px;
   }
 </style>

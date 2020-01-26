@@ -19,7 +19,7 @@
                 span(
                   :class="getStatusClass(task.status)"
                 ) {{task.status}}
-              .task-planed-completion-date Planned completion date: {{task.planedCompletionDate}}
+              .due-date Due date: {{task.dueDate | dateFormat}}
             button.delete-button(@click="deleteTask(task)") Delete
 
     ModalWindow(
@@ -38,11 +38,12 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component, Prop} from 'vue-property-decorator'
+import {Mixins, Component, Prop} from 'vue-property-decorator'
 import {TaskInterface, Status} from "@/types/TaskInterface";
 import ModalWindow from "@/components/modal/ModalWindow.vue"
 import TaskCreateForm from "@/components/form/TaskCreateForm.vue";
 import TaskDetails from "@/components/form/TaskDetails.vue";
+import TaskMixin from "@/components/mixin/TaskMixin"
 
 @Component(
   {
@@ -55,13 +56,11 @@ import TaskDetails from "@/components/form/TaskDetails.vue";
   }
 )
 
-export default class TaskBlock extends Vue {
+export default class TaskBlock extends Mixins(TaskMixin) {
   @Prop({type: Array}) tasks!: TaskInterface[];
 
   scaleTasks: boolean = false;
-  showModal: boolean = false;
   modalComponent: string = 'TaskCreateForm';
-  currentTask: TaskInterface | null = null;
 
   get taskLastId(): number {
     return this.tasks.length > 0 ? this.tasks[this.tasks.length - 1].id : 0;
@@ -102,18 +101,6 @@ export default class TaskBlock extends Vue {
       }
     )
   }
-
-  getStatusClass(status: Status): string {
-    if (status == Status.ToDo) {
-      return 'status-to-do'
-    }
-
-    if (status == Status.InProgress) {
-      return 'status-in-progress'
-    }
-
-    return 'status-done'
-  }
 }
 </script>
 
@@ -126,7 +113,7 @@ export default class TaskBlock extends Vue {
     align-self: center;
   }
 
-  .task-description, .task-status, .task-planed-completion-date {
+  .task-description, .task-status, .due-date {
     padding-top: 15px;
   }
 
@@ -166,7 +153,7 @@ export default class TaskBlock extends Vue {
     color: blue;
   }
 
-  .task-status, .task-planed-completion-date {
+  .task-status, .due-date {
     font-size: 14px;
     color: rgba($content-font-color, 0.7);
   }

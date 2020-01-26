@@ -9,5 +9,5 @@ export interface TaskInterface {
   name: string;
   description: string;
   status: Status;
-  planedCompletionDate: string;
+  dueDate: number;
 }
