@@ -1,4 +1,4 @@
-<template lang="pug" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template lang="pug">
   .content-container
     button.add-button(@click="showTaskCreateForm") Add Task
 
@@ -19,7 +19,9 @@
                 span(
                   :class="getStatusClass(task.status)"
                 ) {{task.status}}
-              .due-date Due date: {{task.dueDate | dateFormat}}
+              .due-date(
+                :class="{overdue: isOverdue(task.dueDate), 'soon-overdue': isSoonOverdue(task.dueDate)}"
+              ) Due date: {{task.dueDate | dateFormat}}
             button.delete-button(@click="deleteTask(task)") Delete
 
     ModalWindow(
@@ -39,7 +41,7 @@
 
 <script lang="ts">
 import {Mixins, Component, Prop} from 'vue-property-decorator'
-import {TaskInterface, Status} from "@/types/TaskInterface";
+import {TaskInterface} from "@/types/TaskInterface";
 import ModalWindow from "@/components/modal/ModalWindow.vue"
 import TaskCreateForm from "@/components/form/TaskCreateForm.vue";
 import TaskDetails from "@/components/form/TaskDetails.vue";
@@ -156,6 +158,14 @@ export default class TaskBlock extends Mixins(TaskMixin) {
   .task-status, .due-date {
     font-size: 14px;
     color: rgba($content-font-color, 0.7);
+  }
+
+  .overdue {
+    color: $error-color;
+  }
+
+  .soon-overdue {
+    color: #cea501;
   }
 
   .tasks-block-enter-active {

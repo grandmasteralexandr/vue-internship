@@ -44,7 +44,7 @@ export default class LayoutDefault extends Vue {
       name: 'Learn Vue Cli',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
       status: Status.ToDo,
-      dueDate: 1580067280000
+      dueDate: 1579996800000
     },
 
     {
@@ -52,7 +52,7 @@ export default class LayoutDefault extends Vue {
       name: 'Some task',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
       status: Status.InProgress,
-      dueDate: 1591040004000
+      dueDate: 1590969600000
     },
   ];
 

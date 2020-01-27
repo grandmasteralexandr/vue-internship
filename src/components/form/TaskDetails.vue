@@ -56,7 +56,10 @@
         required
         v-model="taskDueDate"
       )
-    .due-date(v-else) Due date: {{task.dueDate | dateFormat}}
+    .due-date(
+      v-else
+      :class="{overdue: isOverdue(task.dueDate), 'soon-overdue': isSoonOverdue(task.dueDate)}"
+    ) Due date: {{task.dueDate | dateFormat}}
 
     .button-block(:class="{'one-button': !isChanged}")
       button.add-button(v-if="isChanged" type="submit") Save
@@ -82,7 +85,7 @@ export default class TaskDetails extends Mixins(TaskMixin) {
   taskName: string = this.task.name;
   taskDescription: string = this.task.description;
   taskStatus: Status = this.task.status;
-  taskDueDate: string = moment(this.task.dueDate).format('YYYY-MM-DD');
+  taskDueDate: string = moment.utc(this.task.dueDate).format('YYYY-MM-DD');
   statusEnum: Object = Status;
   errors: InputErrorInterface[] = [];
   isInput: boolean = false;
@@ -192,5 +195,13 @@ export default class TaskDetails extends Mixins(TaskMixin) {
 
   .due-date {
     margin-bottom: 10px;
+  }
+
+  .overdue {
+    color: $error-color;
+  }
+
+  .soon-overdue {
+    color: #cea501;
   }
 </style>

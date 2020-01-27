@@ -6,7 +6,7 @@ import * as moment from 'moment';
   {
     filters: {
       dateFormat: function(value: number): string {
-        return moment(value).format('DD-MM-YYYY');
+        return moment.utc(value).format('DD-MM-YYYY');
       }
     }
   }
@@ -14,6 +14,14 @@ import * as moment from 'moment';
 export default class TaskMixin extends Vue {
   currentTask: TaskInterface | null = null;
   showModal: boolean = false;
+
+  isOverdue(taskDate: number): boolean {
+    return taskDate < Date.now();
+  }
+
+  isSoonOverdue(taskDate: number): boolean {
+    return moment.utc(taskDate).subtract(1, 'days').valueOf() < Date.now() && !this.isOverdue(taskDate)
+  }
 
   getStatusClass(status: Status): string {
     if (status == Status.ToDo) {

@@ -40,7 +40,9 @@
             @dragstart="dragStart($event, task)"
           )
             .task-name {{task.name}}
-            .due-date Due date: {{task.dueDate | dateFormat}}
+            .due-date(
+              :class="{overdue: isOverdue(task.dueDate), 'soon-overdue': isSoonOverdue(task.dueDate)}"
+            ) Due date: {{task.dueDate | dateFormat}}
 
     ModalWindow(
       v-if="showModal"
@@ -246,5 +248,13 @@ export default class KanbanBlock extends Mixins(TaskMixin) {
     padding-top: 5px;
     font-size: 14px;
     color: rgba($content-font-color, 0.7);
+  }
+
+  .overdue {
+    color: $error-color;
+  }
+
+  .soon-overdue {
+    color: #cea501;
   }
 </style>
