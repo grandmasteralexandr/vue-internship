@@ -1,24 +1,24 @@
 <template lang="pug">
   .content-container
     .name-filter
-      label.label(for="search-task-name") Search task:&nbsp
-        input.input.input-search#search-task-name(
+      label.label(for="search-task-name") Search task:
+      input.input.input-search#search-task-name(
         type="search"
         placeholder="Some task name"
         v-model="nameSearch"
-        )
+      )
 
     .date-filter
-      label.label(for="date-filter-from") Search by date from:&nbsp
-        input.input.input-time#date-filter-from(
+      label.label(for="date-filter-from") Search by date From:
+      input.input.input-time#date-filter-from(
         type="date"
         v-model="dateFrom"
-        )
-      label.label(for="date-filter-for") &nbsp to:&nbsp
-        input.input.input-time#date-filter-for(
+      )
+      label.label(for="date-filter-for") To:
+      input.input.input-time#date-filter-for(
         type="date"
         v-model="dateTo"
-        )
+      )
       button.clear-button(type="button" @click="clearDateFilter") Clear
 
     .status-table
@@ -38,6 +38,7 @@
             @click="showTaskDetails(task)"
             draggable="true"
             @dragstart="dragStart($event, task)"
+            :class="{overdue: isOverdue(task.dueDate), 'soon-overdue': isSoonOverdue(task.dueDate)}"
           )
             .task-name {{task.name}}
             .due-date(
@@ -176,12 +177,27 @@ export default class KanbanBlock extends Mixins(TaskMixin) {
 </script>
 
 <style scoped lang="scss">
+  .name-filter {
+    display: flex;
+    align-items: center;
+  }
+
   .input-search {
     width: 150px;
+    margin: 0 5px;
+  }
+
+  .date-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 15px 0;
   }
 
   .input-time {
     width: 130px;
+    height: 15px;
+    margin: 0 5px;
   }
 
   .clear-button {
@@ -242,19 +258,47 @@ export default class KanbanBlock extends Mixins(TaskMixin) {
     &:last-child {
       margin-bottom: 10px;
     }
+
+    &.overdue {
+      box-shadow: 0 0 2px 2px $error-color;
+    }
+
+    &.soon-overdue {
+      box-shadow: 0 0 2px 2px #cea501;
+    }
   }
 
   .due-date {
     padding-top: 5px;
     font-size: 14px;
     color: rgba($content-font-color, 0.7);
+
+    &.overdue {
+      color: $error-color;
+    }
+
+    &.soon-overdue {
+      color: #cea501;
+    }
   }
 
-  .overdue {
-    color: $error-color;
-  }
+  @media screen and (max-width: 800px){
+    .name-filter, .date-filter {
+      flex-direction: column;
+      align-self: center;
+    }
 
-  .soon-overdue {
-    color: #cea501;
+    .input-search {
+      margin: 10px 0 0 0;
+    }
+
+    .input-time {
+      margin: 10px 0;
+      width: 150px;
+    }
+
+    .clear-button {
+      align-self: center;
+    }
   }
 </style>
