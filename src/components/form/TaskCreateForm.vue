@@ -1,5 +1,5 @@
 <template lang="pug">
-  form.add-task-form(@submit.prevent="addTask" novalidate)
+  form.add-task-form(@submit.prevent="createTask" novalidate)
     .errors-block(
     v-if="errors.length"
     )
@@ -46,6 +46,9 @@
 import {Vue, Component, Prop} from 'vue-property-decorator'
 import {Status} from "@/types/TaskInterface";
 import {InputErrorInterface} from "@/types/InputErrorInterface";
+import {namespace} from 'vuex-class'
+
+const taskStore = namespace('task');
 
 @Component(
   {
@@ -54,6 +57,7 @@ import {InputErrorInterface} from "@/types/InputErrorInterface";
 )
 export default class TaskCreateForm extends Vue {
   @Prop({type: Number, default: 0}) taskLastId!: number;
+  @taskStore.Mutation('addTask') addTask!: Function;
 
   newTaskName: string = '';
   newTaskDescription: string = '';
@@ -62,16 +66,16 @@ export default class TaskCreateForm extends Vue {
   statusEnum: Object = Status;
   errors: InputErrorInterface[] = [];
 
-  addTask(): void {
+  createTask(): void {
     if (this.newTaskName && this.newTaskDescription && this.newTaskDueDate) {
-      this.$emit(
-        'addTask',
+      this.addTask(
         {
           id: this.taskLastId + 1,
           name: this.newTaskName,
           description: this.newTaskDescription,
           status: this.newTaskStatus,
-          dueDate: Date.parse(this.newTaskDueDate)
+          dueDate: Date.parse(this.newTaskDueDate),
+          createdDate: Date.now()
         }
       );
 

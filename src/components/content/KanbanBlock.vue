@@ -58,11 +58,14 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Mixins} from 'vue-property-decorator';
+import {Component, Mixins} from 'vue-property-decorator';
 import {Status, TaskInterface} from "@/types/TaskInterface";
 import ModalWindow from "@/components/modal/ModalWindow.vue";
 import TaskDetails from "@/components/form/TaskDetails.vue";
 import TaskMixin from "@/components/mixin/TaskMixin"
+import {namespace} from 'vuex-class'
+
+const taskStore = namespace('task');
 
 @Component(
   {
@@ -74,7 +77,8 @@ import TaskMixin from "@/components/mixin/TaskMixin"
   }
 )
 export default class KanbanBlock extends Mixins(TaskMixin) {
-  @Prop({type: Array}) tasks!: TaskInterface[];
+  @taskStore.State('tasks') tasks!: TaskInterface[];
+  @taskStore.Mutation('editTask') editTask!: Function;
 
   statusEnum: Object = Status;
   droppedColName: string = '';
@@ -157,8 +161,7 @@ export default class KanbanBlock extends Mixins(TaskMixin) {
       return;
     }
 
-    this.$emit(
-      'editTask',
+    this.editTask(
       {
         id: this.currentTask.id,
         name: this.currentTask.name,

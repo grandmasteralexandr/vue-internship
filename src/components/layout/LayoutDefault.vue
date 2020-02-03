@@ -2,17 +2,11 @@
   .wrap
     MainSidebar(
       :notification-count="notificationCount"
-      :open-task-count="tasks.length"
-      :completed-task-count="completedTaskCount"
     )
     .content
       MainHeader
       MainContent(
-        :tasks="tasks"
         @activityImgClick="changeNotificationCount($event)"
-        @addTask="addTask($event)"
-        @editTask="editTask($event)"
-        @deleteTask="deleteTask($event)"
       )
 </template>
 
@@ -22,7 +16,6 @@ import Component from 'vue-class-component'
 import MainSidebar from '../main/MainSidebar.vue'
 import MainHeader from '../main/MainHeader.vue'
 import MainContent from '../main/MainContent.vue'
-import {Status, TaskInterface} from "@/types/TaskInterface";
 
 @Component(
   {
@@ -34,54 +27,11 @@ import {Status, TaskInterface} from "@/types/TaskInterface";
     },
   }
 )
-
 export default class LayoutDefault extends Vue {
   notificationCount: number = 3;
-  completedTaskCount: number = 372;
-  tasks: TaskInterface[] = [
-    {
-      id: 0,
-      name: 'Learn Vue Cli',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-      status: Status.ToDo,
-      dueDate: 1579996800000
-    },
-
-    {
-      id: 1,
-      name: 'Some task',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut cumque, cupiditate dignissimos dolor eum laborum maiores numquam odit perferendis provident ratione repudiandae tempora tenetur voluptatum! Accusantium dolores illum rem.',
-      status: Status.InProgress,
-      dueDate: 1590969600000
-    },
-  ];
 
   changeNotificationCount(number: number): void {
     this.notificationCount = number
-  }
-
-  addTask(task: TaskInterface): void {
-    this.tasks.push(task);
-  }
-
-  editTask(task: TaskInterface): void {
-    let index: number = -1;
-
-    // find task index in array
-    for (let i = 0; i < this.tasks.length; i++) {
-      if (task.id == this.tasks[i].id) {
-        index = i;
-        break;
-      }
-    }
-
-    this.$set(this.tasks, index, task);
-  }
-
-  deleteTask(task: TaskInterface): void {
-    const index: number = this.tasks.indexOf(task, 0);
-    this.tasks.splice(index, 1);
-    this.completedTaskCount++;
   }
 }
 </script>

@@ -46,6 +46,9 @@ import ModalWindow from "@/components/modal/ModalWindow.vue"
 import TaskCreateForm from "@/components/form/TaskCreateForm.vue";
 import TaskDetails from "@/components/form/TaskDetails.vue";
 import TaskMixin from "@/components/mixin/TaskMixin"
+import {namespace} from 'vuex-class'
+
+const taskStore = namespace('task');
 
 @Component(
   {
@@ -57,9 +60,9 @@ import TaskMixin from "@/components/mixin/TaskMixin"
     }
   }
 )
-
 export default class TaskBlock extends Mixins(TaskMixin) {
-  @Prop({type: Array}) tasks!: TaskInterface[];
+  @taskStore.State('tasks') tasks!: TaskInterface[];
+  @taskStore.Mutation('deleteTask') deleteTask!: Function;
 
   scaleTasks: boolean = false;
   modalComponent: string = 'TaskCreateForm';
@@ -81,10 +84,6 @@ export default class TaskBlock extends Mixins(TaskMixin) {
     this.modalComponent = 'TaskDetails';
     this.currentTask = task;
     this.showModal = true;
-  }
-
-  deleteTask(index: number): void {
-    this.$emit('deleteTask', index);
   }
 
   //using js because transition-group don't correct work with css animation-iteration-count (blink only 1 iteration)

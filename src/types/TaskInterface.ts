@@ -10,4 +10,5 @@ export interface TaskInterface {
   description: string;
   status: Status;
   dueDate: number;
+  createdDate: number;
 }

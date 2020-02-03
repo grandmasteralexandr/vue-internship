@@ -29,21 +29,35 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import {namespace} from 'vuex-class'
+import {TaskInterface} from "@/types/TaskInterface";
+
+const taskStore = namespace('task');
 
 @Component(
   {
     name: 'MainSidebar',
   }
 )
-
 export default class MainSidebar extends Vue {
   @Prop({type: Number, default: 3}) notificationCount!: number;
-  @Prop({type: Number, default: 0}) openTaskCount!: number;
-  @Prop({type: Number, default: 372}) completedTaskCount!: number;
+  @taskStore.State('tasks') tasks!: TaskInterface[];
 
+  completedTaskCount: number = 372;
   userName: string = 'Jean Gonzales';
   userRole: string = 'Product Owner';
+
+  @Watch('tasks')
+  onTaskChanged(tasks: TaskInterface[], oldTasks: TaskInterface[]) {
+    if (oldTasks.length > tasks.length) {
+      this.completedTaskCount++;
+    }
+  }
+
+  get openTaskCount(): number {
+    return this.tasks.length;
+  }
 
   goToTasks(): void {
     if (this.openTaskCount === 0) {
