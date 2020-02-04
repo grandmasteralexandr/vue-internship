@@ -52,7 +52,6 @@
       template(v-slot:body)
         TaskDetails(
           :task="currentTask"
-          @editTask="$emit('editTask', $event)"
           @close="showModal = false"
         )
 </template>
@@ -168,6 +167,7 @@ export default class KanbanBlock extends Mixins(TaskMixin) {
         description: this.currentTask.description,
         status: newStatus,
         dueDate: this.currentTask.dueDate,
+        createdDate: this.currentTask.createdDate
       }
     );
   }

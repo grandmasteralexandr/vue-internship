@@ -63,8 +63,16 @@
 
     .button-block(:class="{'one-button': !isChanged}")
       button.add-button(v-if="isChanged" type="submit") Save
-      button.edit-button(v-if="!isInput" type="button" @click.prevent="isInput = true") Edit
-      button.cancel-button(v-if="isInput" type="button" @click.prevent="$emit('close')") Cancel
+      button.edit-button(
+        v-if="!isInput && isEditable"
+        type="button"
+        @click.prevent="isInput = true"
+      ) Edit
+      button.cancel-button(
+        v-if="isInput | !isEditable"
+        type="button"
+        @click.prevent="$emit('close')"
+      ) {{isEditable ? 'Cancel' : 'Close'}}
 </template>
 
 <script lang="ts">
@@ -84,6 +92,7 @@ const taskStore = namespace('task');
 )
 export default class TaskDetails extends Mixins(TaskMixin) {
   @Prop({type: Object}) task!: TaskInterface;
+  @Prop({type: Boolean, default: true}) isEditable!: boolean;
   @taskStore.Mutation('editTask') editTask!: Function;
 
   taskName: string = this.task.name;

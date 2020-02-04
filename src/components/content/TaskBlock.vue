@@ -33,14 +33,12 @@
           :is="modalComponent"
           :task="currentTask"
           :taskLastId="taskLastId"
-          @addTask="$emit('addTask', $event)"
-          @editTask="$emit('editTask', $event)"
           @close="showModal = false"
         )
 </template>
 
 <script lang="ts">
-import {Mixins, Component, Prop} from 'vue-property-decorator'
+import {Mixins, Component} from 'vue-property-decorator'
 import {TaskInterface} from "@/types/TaskInterface";
 import ModalWindow from "@/components/modal/ModalWindow.vue"
 import TaskCreateForm from "@/components/form/TaskCreateForm.vue";
