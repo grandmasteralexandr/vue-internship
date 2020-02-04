@@ -38,7 +38,7 @@
     )
 
     .button-block
-      button.add-button(type="submit") Add Task
+      button.add-button(type="submit" @click="createTask") Add Task
       button.cancel-button(type="button" @click="$emit('close')") Cancel
 </template>
 
