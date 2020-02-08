@@ -1,5 +1,7 @@
-import {createModule, mutation} from 'vuex-class-component';
+import {createModule, mutation, action} from 'vuex-class-component';
 import {ActivityInterface} from "@/types/ActivityInterface";
+import {getActivities} from '@/service/activitiesApi'
+import {AxiosResponse} from "axios";
 
 const VuexModule = createModule({
   namespaced: "activity",
@@ -7,40 +9,22 @@ const VuexModule = createModule({
 });
 
 export class ActivityStore extends VuexModule {
-  private activities: ActivityInterface[] = [
-    {
-      activityDate: 'TODAY',
-      activityItems: [
-        {
-          iconClass: 'done-icon',
-          description: 'Darika Samak mark as done Listing on Product Hunt so that we can reach as many potential users',
-          datetime: '20:40',
-          time: '8:40 PM'
-        },
+  private activities: ActivityInterface[] = [];
 
-        {
-          iconClass: 'comment-icon',
-          description: 'Emilee Simchenko commented on Account for teams and personal in bottom style',
-          datetime: '19:32',
-          time: '7:32 PM',
-          comment: 'During a project build, it is necessary to evaluate the product design and development against project requirements and outcomes'
-        },
-
-        {
-          iconClass: 'download-icon',
-          description: 'Darika Samak uploaded 4 files on An option to search in current projects or in all projects',
-          datetime: '18:02',
-          time: '6:02 PM',
-          imgs: [
-            'cat.jpeg',
-            'cat2.jpeg',
-            'cat3.jpeg',
-            'cat4.jpeg'
-          ]
-        }
-      ]
+  @action async getAllActivities() {
+    try {
+      const response: AxiosResponse = await getActivities();
+      // cal mutation in action don't work see issue https://github.com/michaelolof/vuex-class-component/issues/58
+      // this.addAllActivities(response.data);
+      return response.data
+    } catch (e) {
+      console.log(e.message);
     }
-  ];
+  }
+
+  @mutation addAllActivities(activities: any) {
+    this.activities = activities;
+  }
 
   get files(): string[] {
     let result: string[] = [];

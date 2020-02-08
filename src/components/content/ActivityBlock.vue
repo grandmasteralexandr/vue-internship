@@ -51,6 +51,12 @@ const activityStore = namespace('activity');
 )
 export default class ActivityBlock extends Mixins(CommonMixin) {
   @activityStore.State('activities') activities!: ActivityInterface[];
+  @activityStore.Action('getAllActivities') getAllActivities!: Function;
+  @activityStore.Mutation('addAllActivities') addAllActivities!: Function;
+
+  async mounted() {
+    this.addAllActivities(await this.getAllActivities());
+  }
 }
 </script>
 
