@@ -11,7 +11,7 @@ const VuexModule = createModule({
 export class ActivityStore extends VuexModule {
   private activities: ActivityInterface[] = [];
 
-  @action async getAllActivities() {
+  @action async getActivitiesAction() {
     try {
       const response: AxiosResponse = await getActivities();
       // cal mutation in action don't work see issue https://github.com/michaelolof/vuex-class-component/issues/58
@@ -22,7 +22,7 @@ export class ActivityStore extends VuexModule {
     }
   }
 
-  @mutation addAllActivities(activities: any) {
+  @mutation addActivitiesMutation(activities: any) {
     this.activities = activities;
   }
 

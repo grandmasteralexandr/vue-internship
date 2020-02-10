@@ -93,7 +93,8 @@ const taskStore = namespace('task');
 export default class TaskDetails extends Mixins(TaskMixin) {
   @Prop({type: Object}) task!: TaskInterface;
   @Prop({type: Boolean, default: true}) isEditable!: boolean;
-  @taskStore.Mutation('editTask') editTask!: Function;
+  @taskStore.Action('editTaskAction') editTaskAction!: Function;
+  @taskStore.Mutation('getTasksMutation') getTasksMutation!: Function;
 
   taskName: string = this.task.name;
   taskDescription: string = this.task.description;
@@ -104,17 +105,19 @@ export default class TaskDetails extends Mixins(TaskMixin) {
   isInput: boolean = false;
   isChanged: boolean = false;
 
-  changeTask(): void {
+  async changeTask() {
     if (this.taskName && this.taskDescription && this.taskDueDate) {
-      this.editTask(
-        {
-          id: this.task.id,
-          name: this.taskName,
-          description: this.taskDescription,
-          status: this.taskStatus,
-          dueDate: Date.parse(this.taskDueDate),
-          createdDate: this.task.createdDate
-        }
+      this.getTasksMutation(
+        await this.editTaskAction(
+          {
+            id: this.task.id,
+            name: this.taskName,
+            description: this.taskDescription,
+            status: this.taskStatus,
+            dueDate: Date.parse(this.taskDueDate),
+            createdDate: this.task.createdDate
+          }
+        )
       );
 
       this.$emit('close');

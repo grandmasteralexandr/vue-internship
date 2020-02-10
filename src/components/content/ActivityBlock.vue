@@ -51,11 +51,12 @@ const activityStore = namespace('activity');
 )
 export default class ActivityBlock extends Mixins(CommonMixin) {
   @activityStore.State('activities') activities!: ActivityInterface[];
-  @activityStore.Action('getAllActivities') getAllActivities!: Function;
-  @activityStore.Mutation('addAllActivities') addAllActivities!: Function;
+  @activityStore.Action('getActivitiesAction') getActivitiesAction!: Function;
+  @activityStore.Mutation('addActivitiesMutation') addActivitiesMutation!: Function;
 
-  async mounted() {
-    this.addAllActivities(await this.getAllActivities());
+  async created() {
+    // cal mutation in action don't work see issue https://github.com/michaelolof/vuex-class-component/issues/58
+    this.addActivitiesMutation(await this.getActivitiesAction());
   }
 }
 </script>

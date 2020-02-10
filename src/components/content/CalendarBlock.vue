@@ -74,12 +74,19 @@ const taskStore = namespace('task');
 )
 export default class CalendarBlock extends Mixins(TaskMixin) {
   @taskStore.State('tasks') tasks!: TaskInterface[];
+  @taskStore.Action('getTasksAction') getTasksAction!: Function;
+  @taskStore.Mutation('getTasksMutation') getTasksMutation!: Function;
   daysOfWeek: string[] = moment.weekdaysShort();
   currentDate: Moment = moment.utc();
   checkedDate: CalendarDayInterface = {
     dayOfMonth: moment.utc().date(),
     tasks: []
   };
+
+  async created() {
+    // cal mutation in action don't work see issue https://github.com/michaelolof/vuex-class-component/issues/58
+    this.getTasksMutation(await this.getTasksAction());
+  }
 
   showPrevMonth():void {
     this.currentDate = this.currentDate.clone().subtract(1, 'month');
@@ -90,7 +97,8 @@ export default class CalendarBlock extends Mixins(TaskMixin) {
   }
 
   @Watch('tasks', {immediate: true})
-  onTaskChanged() {
+  @Watch('currentDate', {immediate: true})
+  onDateChanged() {
     this.checkedDate.tasks = this.getTasksByDay(this.checkedDate.dayOfMonth);
   }
 

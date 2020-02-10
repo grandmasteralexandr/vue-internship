@@ -30,6 +30,13 @@ const activityStore = namespace('activity');
 )
 export default class FilesBlock extends Mixins(CommonMixin) {
   @activityStore.Getter('files') files!: Function;
+  @activityStore.Action('getActivitiesAction') getActivitiesAction!: Function;
+  @activityStore.Mutation('addActivitiesMutation') addActivitiesMutation!: Function;
+
+  async created() {
+    // cal mutation in action don't work see issue https://github.com/michaelolof/vuex-class-component/issues/58
+    this.addActivitiesMutation(await this.getActivitiesAction());
+  }
 }
 </script>
 

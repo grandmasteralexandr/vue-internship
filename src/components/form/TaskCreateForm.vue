@@ -38,7 +38,7 @@
     )
 
     .button-block
-      button.add-button(type="submit" @click="createTask") Add Task
+      button.add-button(type="submit") Add Task
       button.cancel-button(type="button" @click="$emit('close')") Cancel
 </template>
 
@@ -56,8 +56,8 @@ const taskStore = namespace('task');
   }
 )
 export default class TaskCreateForm extends Vue {
-  @Prop({type: Number, default: 0}) taskLastId!: number;
-  @taskStore.Mutation('addTask') addTask!: Function;
+  @taskStore.Action('addTaskAction') addTaskAction!: Function;
+  @taskStore.Mutation('getTasksMutation') getTasksMutation!: Function;
 
   newTaskName: string = '';
   newTaskDescription: string = '';
@@ -66,17 +66,18 @@ export default class TaskCreateForm extends Vue {
   statusEnum: Object = Status;
   errors: InputErrorInterface[] = [];
 
-  createTask(): void {
+  async createTask() {
     if (this.newTaskName && this.newTaskDescription && this.newTaskDueDate) {
-      this.addTask(
-        {
-          id: this.taskLastId + 1,
-          name: this.newTaskName,
-          description: this.newTaskDescription,
-          status: this.newTaskStatus,
-          dueDate: Date.parse(this.newTaskDueDate),
-          createdDate: Date.now()
-        }
+      this.getTasksMutation(
+        await this.addTaskAction(
+          {
+            name: this.newTaskName,
+            description: this.newTaskDescription,
+            status: this.newTaskStatus,
+            dueDate: Date.parse(this.newTaskDueDate),
+            createdDate: Date.now()
+          }
+        )
       );
 
       this.newTaskName = '';

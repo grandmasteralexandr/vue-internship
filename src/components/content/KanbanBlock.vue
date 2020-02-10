@@ -77,13 +77,20 @@ const taskStore = namespace('task');
 )
 export default class KanbanBlock extends Mixins(TaskMixin) {
   @taskStore.State('tasks') tasks!: TaskInterface[];
-  @taskStore.Mutation('editTask') editTask!: Function;
+  @taskStore.Action('getTasksAction') getTasksAction!: Function;
+  @taskStore.Action('editTaskAction') editTaskAction!: Function;
+  @taskStore.Mutation('getTasksMutation') getTasksMutation!: Function;
 
   statusEnum: Object = Status;
   droppedColName: string = '';
   nameSearch: string = '';
   dateFrom: string = '';
   dateTo: string = '';
+
+  async created() {
+    // cal mutation in action don't work see issue https://github.com/michaelolof/vuex-class-component/issues/58
+    this.getTasksMutation(await this.getTasksAction());
+  }
 
   get filterTasks(): TaskInterface[] {
     let filteredTask: TaskInterface[] = [];
@@ -149,7 +156,7 @@ export default class KanbanBlock extends Mixins(TaskMixin) {
     $event.preventDefault();
   }
 
-  onDrop(newStatus: Status): void {
+  async onDrop(newStatus: Status) {
     this.droppedColName = '';
 
     if (
@@ -160,15 +167,17 @@ export default class KanbanBlock extends Mixins(TaskMixin) {
       return;
     }
 
-    this.editTask(
-      {
-        id: this.currentTask.id,
-        name: this.currentTask.name,
-        description: this.currentTask.description,
-        status: newStatus,
-        dueDate: this.currentTask.dueDate,
-        createdDate: this.currentTask.createdDate
-      }
+    this.getTasksMutation(
+      await this.editTaskAction(
+        {
+          id: this.currentTask.id,
+          name: this.currentTask.name,
+          description: this.currentTask.description,
+          status: newStatus,
+          dueDate: this.currentTask.dueDate,
+          createdDate: this.currentTask.createdDate
+        }
+      )
     );
   }
 

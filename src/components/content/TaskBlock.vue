@@ -32,7 +32,6 @@
         component(
           :is="modalComponent"
           :task="currentTask"
-          :taskLastId="taskLastId"
           @close="showModal = false"
         )
 </template>
@@ -60,17 +59,24 @@ const taskStore = namespace('task');
 )
 export default class TaskBlock extends Mixins(TaskMixin) {
   @taskStore.State('tasks') tasks!: TaskInterface[];
-  @taskStore.Mutation('deleteTask') deleteTask!: Function;
+  @taskStore.Action('getTasksAction') getTasksAction!: Function;
+  @taskStore.Action('deleteTaskAction') deleteTaskAction!: Function;
+  @taskStore.Mutation('getTasksMutation') getTasksMutation!: Function;
 
   scaleTasks: boolean = false;
   modalComponent: string = 'TaskCreateForm';
 
-  get taskLastId(): number {
-    return this.tasks.length > 0 ? this.tasks[this.tasks.length - 1].id : 0;
+  async created() {
+    // cal mutation in action don't work see issue https://github.com/michaelolof/vuex-class-component/issues/58
+    this.getTasksMutation(await this.getTasksAction());
   }
 
   mounted(): void {
     this.scaleTasks = true;
+  }
+
+  async deleteTask(task: TaskInterface) {
+    this.getTasksMutation(await this.deleteTaskAction(task));
   }
 
   showTaskCreateForm(): void {
