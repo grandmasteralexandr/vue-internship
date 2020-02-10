@@ -46,6 +46,12 @@ export default new Router(
       {
         path: '*',
         component: () => import('@/components/error/NotFound404.vue')
+      },
+
+      {
+        path: '/500',
+        name: 'InternalServerError500',
+        component: () => import('@/components/error/InternalServerError500.vue')
       }
     ]
   }
