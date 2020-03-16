@@ -77,6 +77,10 @@ export default class TaskBlock extends Mixins(TaskMixin) {
 
   async deleteTask(task: TaskInterface) {
     this.getTasksMutation(await this.deleteTaskAction(task));
+    this.$gtag.event('Click on delete task', {
+      'event_category': 'Click',
+      'event_label': task.name
+    });
   }
 
   showTaskCreateForm(): void {
@@ -88,6 +92,10 @@ export default class TaskBlock extends Mixins(TaskMixin) {
     this.modalComponent = 'TaskDetails';
     this.currentTask = task;
     this.showModal = true;
+    this.$gtag.event('Click on show task', {
+      'event_category': 'Click',
+      'event_label': task.name
+    });
   }
 
   //using js because transition-group don't correct work with css animation-iteration-count (blink only 1 iteration)

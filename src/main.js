@@ -5,6 +5,11 @@ import store from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueGtag from "vue-gtag";
+
+Vue.use(VueGtag, {
+  config: { id: "UA-160763913-1" }
+});
 
 library.add(faAngleDoubleLeft, faAngleDoubleRight)
 
